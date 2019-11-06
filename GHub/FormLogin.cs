@@ -20,15 +20,49 @@ namespace GHub
 
             var skinManager = MaterialSkin.MaterialSkinManager.Instance;
             skinManager.AddFormToManage(this);
-            skinManager.Theme = MaterialSkin.MaterialSkinManager.Themes.DARK;
+            skinManager.Theme = MaterialSkin.MaterialSkinManager.Themes.LIGHT;
             skinManager.ColorScheme = new MaterialSkin.ColorScheme
                 (
-                MaterialSkin.Primary.Teal100,
-                MaterialSkin.Primary.Teal200,
-                MaterialSkin.Primary.Teal300,
-                MaterialSkin.Accent.Teal700,
+                MaterialSkin.Primary.Teal900,
+                MaterialSkin.Primary.Teal800,
+                MaterialSkin.Primary.Teal700,
+                MaterialSkin.Accent.Teal400,
                 MaterialSkin.TextShade.BLACK
                 );
+
+            panelLogin.Visible = true;
+            panelRegistro.Visible = false;
+        }
+
+        private void labelRegistrarse_Click(object sender, EventArgs e)
+        {
+            panelLogin.Visible = false;
+            panelRegistro.Visible = true;
+        }
+
+        private void labelYaTengoCuenta_Click(object sender, EventArgs e)
+        {
+            panelLogin.Visible = true;
+            panelRegistro.Visible = false;
+        }
+
+        private void materialRaisedButton1_Click(object sender, EventArgs e)
+        {
+            //Inserta en base de datos los credenciales
+            panelLogin.Visible = true;
+            panelRegistro.Visible = false;
+        }
+
+        private void linkClaveSteam_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.linkClaveSteam.LinkVisited = true;
+            System.Diagnostics.Process.Start("https://steamcommunity.com/dev/apikey");
+        }
+
+        private void linkSteamId_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.linkSteamId.LinkVisited = true;
+            System.Diagnostics.Process.Start("https://steamdb.info/calculator/");
         }
     }
 }
