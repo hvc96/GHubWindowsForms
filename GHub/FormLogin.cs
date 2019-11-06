@@ -32,25 +32,36 @@ namespace GHub
 
             panelLogin.Visible = true;
             panelRegistro.Visible = false;
+            panelReestablecerPass.Visible = false;
         }
 
         private void labelRegistrarse_Click(object sender, EventArgs e)
         {
-            panelLogin.Visible = false;
             panelRegistro.Visible = true;
+            panelLogin.Visible = false;
+            panelReestablecerPass.Visible = false;
         }
 
         private void labelYaTengoCuenta_Click(object sender, EventArgs e)
         {
             panelLogin.Visible = true;
             panelRegistro.Visible = false;
+            panelReestablecerPass.Visible = false;
+
         }
 
-        private void materialRaisedButton1_Click(object sender, EventArgs e)
+        private void labelOlvido_Click(object sender, EventArgs e)
         {
-            //Inserta en base de datos los credenciales
+            panelReestablecerPass.Visible = true;
+            panelLogin.Visible = false;
+            panelRegistro.Visible = false;
+        }
+        
+        private void imagenAtras_Click(object sender, EventArgs e)
+        {
             panelLogin.Visible = true;
             panelRegistro.Visible = false;
+            panelReestablecerPass.Visible = false;
         }
 
         private void linkClaveSteam_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -64,5 +75,20 @@ namespace GHub
             this.linkSteamId.LinkVisited = true;
             System.Diagnostics.Process.Start("https://steamdb.info/calculator/");
         }
+
+        private void btnCrearUsuario_Click(object sender, EventArgs e)
+        {
+            //Inserta en base de datos los credenciales
+            panelLogin.Visible = true;
+            panelRegistro.Visible = false;
+            panelReestablecerPass.Visible = false;
+        }
+
+        private void btnEnviarEmailRecuperar_Click(object sender, EventArgs e)
+        {
+            //Enviar correo con credenciales
+        }
+
+
     }
 }

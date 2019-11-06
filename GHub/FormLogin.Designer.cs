@@ -46,11 +46,19 @@
             this.txtboxNuevoSteamID = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.linkClaveSteam = new System.Windows.Forms.LinkLabel();
             this.linkSteamId = new System.Windows.Forms.LinkLabel();
+            this.btnCrearUsuario = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.panelReestablecerPass = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelLeyendaCorreo = new System.Windows.Forms.Label();
+            this.textboxEnviarCredenciales = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.btnEnviarEmailRecuperar = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.imagenAtras = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.panelLogin.SuspendLayout();
             this.panelRegistro.SuspendLayout();
+            this.panelReestablecerPass.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenAtras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -98,7 +106,7 @@
             this.textboxPass.SelectionStart = 0;
             this.textboxPass.Size = new System.Drawing.Size(220, 23);
             this.textboxPass.TabIndex = 1;
-            this.textboxPass.UseSystemPasswordChar = false;
+            this.textboxPass.UseSystemPasswordChar = true;
             // 
             // chkMantenerSesion
             // 
@@ -142,6 +150,7 @@
             this.labelOlvido.Size = new System.Drawing.Size(218, 20);
             this.labelOlvido.TabIndex = 9;
             this.labelOlvido.Text = "¿Has olvidado la contraseña?";
+            this.labelOlvido.Click += new System.EventHandler(this.labelOlvido_Click);
             // 
             // labelRegistrarse
             // 
@@ -158,7 +167,7 @@
             // 
             // panelRegistro
             // 
-            this.panelRegistro.Controls.Add(this.materialRaisedButton1);
+            this.panelRegistro.Controls.Add(this.btnCrearUsuario);
             this.panelRegistro.Controls.Add(this.pictureBox2);
             this.panelRegistro.Controls.Add(this.linkSteamId);
             this.panelRegistro.Controls.Add(this.linkClaveSteam);
@@ -174,6 +183,7 @@
             this.panelRegistro.Name = "panelRegistro";
             this.panelRegistro.Size = new System.Drawing.Size(882, 526);
             this.panelRegistro.TabIndex = 11;
+            this.panelRegistro.Visible = false;
             // 
             // txtboxNuevoUsuario
             // 
@@ -310,6 +320,94 @@
             this.linkSteamId.Text = "Consigue tu id aquí";
             this.linkSteamId.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkSteamId_LinkClicked);
             // 
+            // btnCrearUsuario
+            // 
+            this.btnCrearUsuario.Depth = 0;
+            this.btnCrearUsuario.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnCrearUsuario.Location = new System.Drawing.Point(316, 360);
+            this.btnCrearUsuario.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnCrearUsuario.Name = "btnCrearUsuario";
+            this.btnCrearUsuario.Primary = true;
+            this.btnCrearUsuario.Size = new System.Drawing.Size(259, 59);
+            this.btnCrearUsuario.TabIndex = 13;
+            this.btnCrearUsuario.Text = "CREAR USUARIO";
+            this.btnCrearUsuario.UseVisualStyleBackColor = true;
+            this.btnCrearUsuario.Click += new System.EventHandler(this.btnCrearUsuario_Click);
+            // 
+            // panelReestablecerPass
+            // 
+            this.panelReestablecerPass.Controls.Add(this.imagenAtras);
+            this.panelReestablecerPass.Controls.Add(this.btnEnviarEmailRecuperar);
+            this.panelReestablecerPass.Controls.Add(this.textboxEnviarCredenciales);
+            this.panelReestablecerPass.Controls.Add(this.labelLeyendaCorreo);
+            this.panelReestablecerPass.Controls.Add(this.label1);
+            this.panelReestablecerPass.Location = new System.Drawing.Point(0, 64);
+            this.panelReestablecerPass.Name = "panelReestablecerPass";
+            this.panelReestablecerPass.Size = new System.Drawing.Size(882, 526);
+            this.panelReestablecerPass.TabIndex = 14;
+            this.panelReestablecerPass.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.label1.Location = new System.Drawing.Point(307, 63);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(257, 24);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "¿Has olvidado tu contraseña?";
+            // 
+            // labelLeyendaCorreo
+            // 
+            this.labelLeyendaCorreo.AutoSize = true;
+            this.labelLeyendaCorreo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLeyendaCorreo.Location = new System.Drawing.Point(230, 152);
+            this.labelLeyendaCorreo.Name = "labelLeyendaCorreo";
+            this.labelLeyendaCorreo.Size = new System.Drawing.Size(403, 18);
+            this.labelLeyendaCorreo.TabIndex = 9;
+            this.labelLeyendaCorreo.Text = "Introduce el correo electrónico con el que te has registrado: ";
+            // 
+            // textboxEnviarCredenciales
+            // 
+            this.textboxEnviarCredenciales.Depth = 0;
+            this.textboxEnviarCredenciales.Hint = "Correo electrónico";
+            this.textboxEnviarCredenciales.Location = new System.Drawing.Point(252, 194);
+            this.textboxEnviarCredenciales.MouseState = MaterialSkin.MouseState.HOVER;
+            this.textboxEnviarCredenciales.Name = "textboxEnviarCredenciales";
+            this.textboxEnviarCredenciales.PasswordChar = '\0';
+            this.textboxEnviarCredenciales.SelectedText = "";
+            this.textboxEnviarCredenciales.SelectionLength = 0;
+            this.textboxEnviarCredenciales.SelectionStart = 0;
+            this.textboxEnviarCredenciales.Size = new System.Drawing.Size(361, 23);
+            this.textboxEnviarCredenciales.TabIndex = 10;
+            this.textboxEnviarCredenciales.UseSystemPasswordChar = false;
+            // 
+            // btnEnviarEmailRecuperar
+            // 
+            this.btnEnviarEmailRecuperar.Depth = 0;
+            this.btnEnviarEmailRecuperar.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnEnviarEmailRecuperar.Location = new System.Drawing.Point(311, 355);
+            this.btnEnviarEmailRecuperar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnEnviarEmailRecuperar.Name = "btnEnviarEmailRecuperar";
+            this.btnEnviarEmailRecuperar.Primary = true;
+            this.btnEnviarEmailRecuperar.Size = new System.Drawing.Size(253, 58);
+            this.btnEnviarEmailRecuperar.TabIndex = 14;
+            this.btnEnviarEmailRecuperar.Text = "ENVIAR";
+            this.btnEnviarEmailRecuperar.UseVisualStyleBackColor = true;
+            this.btnEnviarEmailRecuperar.Click += new System.EventHandler(this.btnEnviarEmailRecuperar_Click);
+            // 
+            // imagenAtras
+            // 
+            this.imagenAtras.BackgroundImage = global::GHub.Properties.Resources._1486485553_ago_arrow_arrow_left_back_previous_direction_left_81160;
+            this.imagenAtras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.imagenAtras.Location = new System.Drawing.Point(3, 0);
+            this.imagenAtras.Name = "imagenAtras";
+            this.imagenAtras.Size = new System.Drawing.Size(47, 55);
+            this.imagenAtras.TabIndex = 15;
+            this.imagenAtras.TabStop = false;
+            this.imagenAtras.Click += new System.EventHandler(this.imagenAtras_Click);
+            // 
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImage = global::GHub.Properties.Resources.Steam_icon;
@@ -333,25 +431,12 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
-            // materialRaisedButton1
-            // 
-            this.materialRaisedButton1.Depth = 0;
-            this.materialRaisedButton1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.materialRaisedButton1.Location = new System.Drawing.Point(316, 360);
-            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton1.Name = "materialRaisedButton1";
-            this.materialRaisedButton1.Primary = true;
-            this.materialRaisedButton1.Size = new System.Drawing.Size(259, 59);
-            this.materialRaisedButton1.TabIndex = 13;
-            this.materialRaisedButton1.Text = "CREAR USUARIO";
-            this.materialRaisedButton1.UseVisualStyleBackColor = true;
-            this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
-            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 589);
+            this.Controls.Add(this.panelReestablecerPass);
             this.Controls.Add(this.panelRegistro);
             this.Controls.Add(this.panelLogin);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -362,6 +447,9 @@
             this.panelLogin.PerformLayout();
             this.panelRegistro.ResumeLayout(false);
             this.panelRegistro.PerformLayout();
+            this.panelReestablecerPass.ResumeLayout(false);
+            this.panelReestablecerPass.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenAtras)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -389,7 +477,13 @@
         private System.Windows.Forms.LinkLabel linkClaveSteam;
         private MaterialSkin.Controls.MaterialSingleLineTextField txtboxNuevoSteamID;
         private MaterialSkin.Controls.MaterialSingleLineTextField txtboxNuevaClave;
-        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
+        private MaterialSkin.Controls.MaterialRaisedButton btnCrearUsuario;
+        private System.Windows.Forms.Panel panelReestablecerPass;
+        private MaterialSkin.Controls.MaterialRaisedButton btnEnviarEmailRecuperar;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textboxEnviarCredenciales;
+        private System.Windows.Forms.Label labelLeyendaCorreo;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox imagenAtras;
     }
 }
 

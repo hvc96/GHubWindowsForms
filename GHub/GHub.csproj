@@ -129,5 +129,8 @@
   <ItemGroup>
     <None Include="Resources\Steam-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1486485553-ago-arrow-arrow-left-back-previous-direction-left_81160.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
