@@ -63,19 +63,9 @@ namespace GHub.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _1486485553_ago_arrow_arrow_left_back_previous_direction_left_81160 {
+        internal static System.Drawing.Bitmap atras {
             get {
-                object obj = ResourceManager.GetObject("1486485553-ago-arrow-arrow-left-back-previous-direction-left_81160", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap luna {
-            get {
-                object obj = ResourceManager.GetObject("luna", resourceCulture);
+                object obj = ResourceManager.GetObject("atras", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,19 +83,9 @@ namespace GHub.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sol {
+        internal static System.Drawing.Bitmap steam {
             get {
-                object obj = ResourceManager.GetObject("sol", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Steam_icon {
-            get {
-                object obj = ResourceManager.GetObject("Steam-icon", resourceCulture);
+                object obj = ResourceManager.GetObject("steam", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

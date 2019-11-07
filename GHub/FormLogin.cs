@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace GHub
 {
@@ -33,7 +35,44 @@ namespace GHub
             panelLogin.Visible = true;
             panelRegistro.Visible = false;
             panelReestablecerPass.Visible = false;
+
+            imagenAtras.BackgroundImage = Properties.Resources.atras;
+            imagenPerfil.BackgroundImage = Properties.Resources.perfil;
+            imagenSteam.BackgroundImage = Properties.Resources.steam;
+            
         }
+
+
+        public void logins()
+        {
+            try
+            {
+                string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                using (SqlConnection conexion = new SqlConnection(cnn))
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, pass FROM usuarios WHERE usuario='" + textboxUser.Text + "' AND pass='" + textboxPass.Text + "'", conexion))
+                    {
+                        SqlDataReader dr = cmd.ExecuteReader();
+                        if (dr.Read())
+                        {
+                            MessageBox.Show("Login exitoso.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Datos incorrectos.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+        }
+
+
 
         private void labelRegistrarse_Click(object sender, EventArgs e)
         {
@@ -69,6 +108,8 @@ namespace GHub
             this.linkClaveSteam.LinkVisited = true;
             System.Diagnostics.Process.Start("https://steamcommunity.com/dev/apikey");
         }
+
+        
 
         private void linkSteamId_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

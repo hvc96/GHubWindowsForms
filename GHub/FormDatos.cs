@@ -16,5 +16,7 @@ namespace GHub
         {
             InitializeComponent();
         }
+
+        //Una vez logueado tiene que sacar los datos con otra consulta
     }
 }
