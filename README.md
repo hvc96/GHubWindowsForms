@@ -4,3 +4,5 @@ Tras mucho pensar he optado en realizar la aplicación en Windows Forms porque a
 5/11/19 Uso de libreria de componentes MaterialSkin, Formulario de Login hecho
 
 6/11/19 Formulario de registro con paneles añadido
+
+7/11/19 Corregidas imágenes, bases de datos en proceso, métodos recoger y parsear json (falta incluir y hacer los métodos para tratarlo)
