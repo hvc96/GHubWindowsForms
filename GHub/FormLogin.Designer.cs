@@ -34,7 +34,7 @@
             this.imagenPerfil = new System.Windows.Forms.PictureBox();
             this.textboxUser = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.textboxPass = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this.chkMantenerSesion = new MaterialSkin.Controls.MaterialCheckBox();
+            this.chkRecordarcredenciales = new MaterialSkin.Controls.MaterialCheckBox();
             this.btnLogin = new MaterialSkin.Controls.MaterialRaisedButton();
             this.panelRegistro = new System.Windows.Forms.Panel();
             this.btnCrearUsuario = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -55,12 +55,21 @@
             this.textboxEnviarCredenciales = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.labelLeyendaCorreo = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.panelInfoAuxiliar = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panelPopupInfo = new System.Windows.Forms.Panel();
+            this.labelErrorOkInfo = new System.Windows.Forms.Label();
+            this.imagenErrorOk = new System.Windows.Forms.PictureBox();
+            this.labelErrorCampos = new System.Windows.Forms.Label();
             this.panelLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagenPerfil)).BeginInit();
             this.panelRegistro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagenSteam)).BeginInit();
             this.panelReestablecerPass.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagenAtras)).BeginInit();
+            this.panelInfoAuxiliar.SuspendLayout();
+            this.panelPopupInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenErrorOk)).BeginInit();
             this.SuspendLayout();
             // 
             // panelLogin
@@ -71,7 +80,7 @@
             this.panelLogin.Controls.Add(this.imagenPerfil);
             this.panelLogin.Controls.Add(this.textboxUser);
             this.panelLogin.Controls.Add(this.textboxPass);
-            this.panelLogin.Controls.Add(this.chkMantenerSesion);
+            this.panelLogin.Controls.Add(this.chkRecordarcredenciales);
             this.panelLogin.Controls.Add(this.btnLogin);
             this.panelLogin.Location = new System.Drawing.Point(0, 64);
             this.panelLogin.Name = "panelLogin";
@@ -146,23 +155,23 @@
             this.textboxPass.TabIndex = 1;
             this.textboxPass.UseSystemPasswordChar = true;
             // 
-            // chkMantenerSesion
+            // chkRecordarcredenciales
             // 
-            this.chkMantenerSesion.AutoSize = true;
-            this.chkMantenerSesion.BackColor = System.Drawing.Color.Transparent;
-            this.chkMantenerSesion.Depth = 0;
-            this.chkMantenerSesion.Font = new System.Drawing.Font("Roboto", 10F);
-            this.chkMantenerSesion.Location = new System.Drawing.Point(336, 251);
-            this.chkMantenerSesion.Margin = new System.Windows.Forms.Padding(0);
-            this.chkMantenerSesion.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.chkMantenerSesion.MouseState = MaterialSkin.MouseState.HOVER;
-            this.chkMantenerSesion.Name = "chkMantenerSesion";
-            this.chkMantenerSesion.Ripple = false;
-            this.chkMantenerSesion.Size = new System.Drawing.Size(179, 20);
-            this.chkMantenerSesion.TabIndex = 2;
-            this.chkMantenerSesion.Text = "Mantener sesión iniciada";
-            this.chkMantenerSesion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkMantenerSesion.UseVisualStyleBackColor = false;
+            this.chkRecordarcredenciales.AutoSize = true;
+            this.chkRecordarcredenciales.BackColor = System.Drawing.Color.Transparent;
+            this.chkRecordarcredenciales.Depth = 0;
+            this.chkRecordarcredenciales.Font = new System.Drawing.Font("Roboto", 10F);
+            this.chkRecordarcredenciales.Location = new System.Drawing.Point(362, 251);
+            this.chkRecordarcredenciales.Margin = new System.Windows.Forms.Padding(0);
+            this.chkRecordarcredenciales.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.chkRecordarcredenciales.MouseState = MaterialSkin.MouseState.HOVER;
+            this.chkRecordarcredenciales.Name = "chkRecordarcredenciales";
+            this.chkRecordarcredenciales.Ripple = false;
+            this.chkRecordarcredenciales.Size = new System.Drawing.Size(162, 20);
+            this.chkRecordarcredenciales.TabIndex = 2;
+            this.chkRecordarcredenciales.Text = "Recordar credenciales";
+            this.chkRecordarcredenciales.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkRecordarcredenciales.UseVisualStyleBackColor = false;
             // 
             // btnLogin
             // 
@@ -176,9 +185,11 @@
             this.btnLogin.TabIndex = 4;
             this.btnLogin.Text = "Iniciar sesión";
             this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // panelRegistro
             // 
+            this.panelRegistro.Controls.Add(this.labelErrorCampos);
             this.panelRegistro.Controls.Add(this.btnCrearUsuario);
             this.panelRegistro.Controls.Add(this.imagenSteam);
             this.panelRegistro.Controls.Add(this.linkSteamId);
@@ -428,13 +439,76 @@
             this.label1.TabIndex = 8;
             this.label1.Text = "¿Has olvidado tu contraseña?";
             // 
+            // panelInfoAuxiliar
+            // 
+            this.panelInfoAuxiliar.Controls.Add(this.label3);
+            this.panelInfoAuxiliar.Controls.Add(this.panelPopupInfo);
+            this.panelInfoAuxiliar.Location = new System.Drawing.Point(0, 64);
+            this.panelInfoAuxiliar.Name = "panelInfoAuxiliar";
+            this.panelInfoAuxiliar.Size = new System.Drawing.Size(882, 526);
+            this.panelInfoAuxiliar.TabIndex = 15;
+            this.panelInfoAuxiliar.Click += new System.EventHandler(this.panelInfoAuxiliar_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(339, 258);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(194, 13);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "(Haz click en la pantalla para continuar)";
+            // 
+            // panelPopupInfo
+            // 
+            this.panelPopupInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(231)))), ((int)(((byte)(183)))));
+            this.panelPopupInfo.Controls.Add(this.labelErrorOkInfo);
+            this.panelPopupInfo.Controls.Add(this.imagenErrorOk);
+            this.panelPopupInfo.Location = new System.Drawing.Point(154, 171);
+            this.panelPopupInfo.Name = "panelPopupInfo";
+            this.panelPopupInfo.Size = new System.Drawing.Size(601, 80);
+            this.panelPopupInfo.TabIndex = 17;
+            this.panelPopupInfo.Click += new System.EventHandler(this.panelInfoAuxiliar_Click);
+            // 
+            // labelErrorOkInfo
+            // 
+            this.labelErrorOkInfo.AutoSize = true;
+            this.labelErrorOkInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelErrorOkInfo.Location = new System.Drawing.Point(77, 28);
+            this.labelErrorOkInfo.Name = "labelErrorOkInfo";
+            this.labelErrorOkInfo.Size = new System.Drawing.Size(498, 25);
+            this.labelErrorOkInfo.TabIndex = 1;
+            this.labelErrorOkInfo.Text = "No exites ninguna cuenta con ese correo asociado";
+            // 
+            // imagenErrorOk
+            // 
+            this.imagenErrorOk.BackgroundImage = global::GHub.Properties.Resources.ok;
+            this.imagenErrorOk.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.imagenErrorOk.Location = new System.Drawing.Point(19, 14);
+            this.imagenErrorOk.Name = "imagenErrorOk";
+            this.imagenErrorOk.Size = new System.Drawing.Size(41, 56);
+            this.imagenErrorOk.TabIndex = 0;
+            this.imagenErrorOk.TabStop = false;
+            // 
+            // labelErrorCampos
+            // 
+            this.labelErrorCampos.AutoSize = true;
+            this.labelErrorCampos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelErrorCampos.ForeColor = System.Drawing.Color.Red;
+            this.labelErrorCampos.Location = new System.Drawing.Point(306, 321);
+            this.labelErrorCampos.Name = "labelErrorCampos";
+            this.labelErrorCampos.Size = new System.Drawing.Size(290, 16);
+            this.labelErrorCampos.TabIndex = 16;
+            this.labelErrorCampos.Text = "Error, asegurate de introducir todos los campos";
+            this.labelErrorCampos.Visible = false;
+            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 589);
-            this.Controls.Add(this.panelReestablecerPass);
             this.Controls.Add(this.panelRegistro);
+            this.Controls.Add(this.panelInfoAuxiliar);
+            this.Controls.Add(this.panelReestablecerPass);
             this.Controls.Add(this.panelLogin);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.MaximizeBox = false;
@@ -449,6 +523,11 @@
             this.panelReestablecerPass.ResumeLayout(false);
             this.panelReestablecerPass.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagenAtras)).EndInit();
+            this.panelInfoAuxiliar.ResumeLayout(false);
+            this.panelInfoAuxiliar.PerformLayout();
+            this.panelPopupInfo.ResumeLayout(false);
+            this.panelPopupInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenErrorOk)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -458,7 +537,7 @@
         private System.Windows.Forms.PictureBox imagenPerfil;
         private MaterialSkin.Controls.MaterialSingleLineTextField textboxUser;
         private MaterialSkin.Controls.MaterialSingleLineTextField textboxPass;
-        private MaterialSkin.Controls.MaterialCheckBox chkMantenerSesion;
+        private MaterialSkin.Controls.MaterialCheckBox chkRecordarcredenciales;
         private MaterialSkin.Controls.MaterialRaisedButton btnLogin;
         private System.Windows.Forms.Label labelRegistrarse;
         private System.Windows.Forms.Label labelOlvido;
@@ -481,6 +560,12 @@
         private System.Windows.Forms.Label labelLeyendaCorreo;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox imagenAtras;
+        private System.Windows.Forms.Panel panelInfoAuxiliar;
+        private System.Windows.Forms.Panel panelPopupInfo;
+        private System.Windows.Forms.PictureBox imagenErrorOk;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelErrorOkInfo;
+        private System.Windows.Forms.Label labelErrorCampos;
     }
 }
 
