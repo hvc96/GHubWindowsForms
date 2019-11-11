@@ -94,7 +94,7 @@
             this.labelRegistrarse.Location = new System.Drawing.Point(396, 443);
             this.labelRegistrarse.Name = "labelRegistrarse";
             this.labelRegistrarse.Size = new System.Drawing.Size(91, 20);
-            this.labelRegistrarse.TabIndex = 10;
+            this.labelRegistrarse.TabIndex = 4;
             this.labelRegistrarse.Text = "Registrarse";
             this.labelRegistrarse.Click += new System.EventHandler(this.labelRegistrarse_Click);
             // 
@@ -107,7 +107,7 @@
             this.labelOlvido.Location = new System.Drawing.Point(338, 373);
             this.labelOlvido.Name = "labelOlvido";
             this.labelOlvido.Size = new System.Drawing.Size(218, 20);
-            this.labelOlvido.TabIndex = 9;
+            this.labelOlvido.TabIndex = 3;
             this.labelOlvido.Text = "¿Has olvidado la contraseña?";
             this.labelOlvido.Click += new System.EventHandler(this.labelOlvido_Click);
             // 
@@ -162,7 +162,7 @@
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Primary = true;
             this.btnLogin.Size = new System.Drawing.Size(259, 59);
-            this.btnLogin.TabIndex = 4;
+            this.btnLogin.TabIndex = 2;
             this.btnLogin.Text = "Iniciar sesión";
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
@@ -209,7 +209,7 @@
             this.btnCrearUsuario.Name = "btnCrearUsuario";
             this.btnCrearUsuario.Primary = true;
             this.btnCrearUsuario.Size = new System.Drawing.Size(259, 59);
-            this.btnCrearUsuario.TabIndex = 13;
+            this.btnCrearUsuario.TabIndex = 6;
             this.btnCrearUsuario.Text = "CREAR USUARIO";
             this.btnCrearUsuario.UseVisualStyleBackColor = true;
             this.btnCrearUsuario.Click += new System.EventHandler(this.btnCrearUsuario_Click);
@@ -257,7 +257,7 @@
             this.txtboxNuevoSteamID.SelectionLength = 0;
             this.txtboxNuevoSteamID.SelectionStart = 0;
             this.txtboxNuevoSteamID.Size = new System.Drawing.Size(351, 23);
-            this.txtboxNuevoSteamID.TabIndex = 9;
+            this.txtboxNuevoSteamID.TabIndex = 5;
             this.txtboxNuevoSteamID.UseSystemPasswordChar = false;
             // 
             // txtboxNuevaClave
@@ -272,7 +272,7 @@
             this.txtboxNuevaClave.SelectionLength = 0;
             this.txtboxNuevaClave.SelectionStart = 0;
             this.txtboxNuevaClave.Size = new System.Drawing.Size(351, 23);
-            this.txtboxNuevaClave.TabIndex = 8;
+            this.txtboxNuevaClave.TabIndex = 4;
             this.txtboxNuevaClave.UseSystemPasswordChar = false;
             // 
             // labelYaTengoCuenta
@@ -407,7 +407,7 @@
             this.textboxEnviarCredenciales.SelectionLength = 0;
             this.textboxEnviarCredenciales.SelectionStart = 0;
             this.textboxEnviarCredenciales.Size = new System.Drawing.Size(361, 23);
-            this.textboxEnviarCredenciales.TabIndex = 10;
+            this.textboxEnviarCredenciales.TabIndex = 1;
             this.textboxEnviarCredenciales.UseSystemPasswordChar = false;
             // 
             // labelLeyendaCorreo
