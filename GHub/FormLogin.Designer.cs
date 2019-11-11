@@ -34,9 +34,9 @@
             this.imagenPerfil = new System.Windows.Forms.PictureBox();
             this.textboxUser = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.textboxPass = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this.chkRecordarcredenciales = new MaterialSkin.Controls.MaterialCheckBox();
             this.btnLogin = new MaterialSkin.Controls.MaterialRaisedButton();
             this.panelRegistro = new System.Windows.Forms.Panel();
+            this.labelErrorCampos = new System.Windows.Forms.Label();
             this.btnCrearUsuario = new MaterialSkin.Controls.MaterialRaisedButton();
             this.imagenSteam = new System.Windows.Forms.PictureBox();
             this.linkSteamId = new System.Windows.Forms.LinkLabel();
@@ -60,7 +60,6 @@
             this.panelPopupInfo = new System.Windows.Forms.Panel();
             this.labelErrorOkInfo = new System.Windows.Forms.Label();
             this.imagenErrorOk = new System.Windows.Forms.PictureBox();
-            this.labelErrorCampos = new System.Windows.Forms.Label();
             this.panelLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagenPerfil)).BeginInit();
             this.panelRegistro.SuspendLayout();
@@ -80,7 +79,6 @@
             this.panelLogin.Controls.Add(this.imagenPerfil);
             this.panelLogin.Controls.Add(this.textboxUser);
             this.panelLogin.Controls.Add(this.textboxPass);
-            this.panelLogin.Controls.Add(this.chkRecordarcredenciales);
             this.panelLogin.Controls.Add(this.btnLogin);
             this.panelLogin.Location = new System.Drawing.Point(0, 64);
             this.panelLogin.Name = "panelLogin";
@@ -155,24 +153,6 @@
             this.textboxPass.TabIndex = 1;
             this.textboxPass.UseSystemPasswordChar = true;
             // 
-            // chkRecordarcredenciales
-            // 
-            this.chkRecordarcredenciales.AutoSize = true;
-            this.chkRecordarcredenciales.BackColor = System.Drawing.Color.Transparent;
-            this.chkRecordarcredenciales.Depth = 0;
-            this.chkRecordarcredenciales.Font = new System.Drawing.Font("Roboto", 10F);
-            this.chkRecordarcredenciales.Location = new System.Drawing.Point(362, 251);
-            this.chkRecordarcredenciales.Margin = new System.Windows.Forms.Padding(0);
-            this.chkRecordarcredenciales.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.chkRecordarcredenciales.MouseState = MaterialSkin.MouseState.HOVER;
-            this.chkRecordarcredenciales.Name = "chkRecordarcredenciales";
-            this.chkRecordarcredenciales.Ripple = false;
-            this.chkRecordarcredenciales.Size = new System.Drawing.Size(162, 20);
-            this.chkRecordarcredenciales.TabIndex = 2;
-            this.chkRecordarcredenciales.Text = "Recordar credenciales";
-            this.chkRecordarcredenciales.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkRecordarcredenciales.UseVisualStyleBackColor = false;
-            // 
             // btnLogin
             // 
             this.btnLogin.Depth = 0;
@@ -207,6 +187,18 @@
             this.panelRegistro.Size = new System.Drawing.Size(882, 526);
             this.panelRegistro.TabIndex = 11;
             this.panelRegistro.Visible = false;
+            // 
+            // labelErrorCampos
+            // 
+            this.labelErrorCampos.AutoSize = true;
+            this.labelErrorCampos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelErrorCampos.ForeColor = System.Drawing.Color.Red;
+            this.labelErrorCampos.Location = new System.Drawing.Point(306, 321);
+            this.labelErrorCampos.Name = "labelErrorCampos";
+            this.labelErrorCampos.Size = new System.Drawing.Size(290, 16);
+            this.labelErrorCampos.TabIndex = 16;
+            this.labelErrorCampos.Text = "Error, asegurate de introducir todos los campos";
+            this.labelErrorCampos.Visible = false;
             // 
             // btnCrearUsuario
             // 
@@ -475,9 +467,9 @@
             this.labelErrorOkInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelErrorOkInfo.Location = new System.Drawing.Point(77, 28);
             this.labelErrorOkInfo.Name = "labelErrorOkInfo";
-            this.labelErrorOkInfo.Size = new System.Drawing.Size(498, 25);
+            this.labelErrorOkInfo.Size = new System.Drawing.Size(487, 25);
             this.labelErrorOkInfo.TabIndex = 1;
-            this.labelErrorOkInfo.Text = "No exites ninguna cuenta con ese correo asociado";
+            this.labelErrorOkInfo.Text = "No exite ninguna cuenta con ese correo asociado";
             // 
             // imagenErrorOk
             // 
@@ -488,18 +480,6 @@
             this.imagenErrorOk.Size = new System.Drawing.Size(41, 56);
             this.imagenErrorOk.TabIndex = 0;
             this.imagenErrorOk.TabStop = false;
-            // 
-            // labelErrorCampos
-            // 
-            this.labelErrorCampos.AutoSize = true;
-            this.labelErrorCampos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelErrorCampos.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorCampos.Location = new System.Drawing.Point(306, 321);
-            this.labelErrorCampos.Name = "labelErrorCampos";
-            this.labelErrorCampos.Size = new System.Drawing.Size(290, 16);
-            this.labelErrorCampos.TabIndex = 16;
-            this.labelErrorCampos.Text = "Error, asegurate de introducir todos los campos";
-            this.labelErrorCampos.Visible = false;
             // 
             // FormLogin
             // 
@@ -537,7 +517,6 @@
         private System.Windows.Forms.PictureBox imagenPerfil;
         private MaterialSkin.Controls.MaterialSingleLineTextField textboxUser;
         private MaterialSkin.Controls.MaterialSingleLineTextField textboxPass;
-        private MaterialSkin.Controls.MaterialCheckBox chkRecordarcredenciales;
         private MaterialSkin.Controls.MaterialRaisedButton btnLogin;
         private System.Windows.Forms.Label labelRegistrarse;
         private System.Windows.Forms.Label labelOlvido;

@@ -19,7 +19,7 @@ namespace GHub
         public string okCuenta = "¡ Cuenta creada con exito !";
         public string errorRecuperarPass = "No existe ninguna cuenta con ese correo asociado";
         public string okRecuperarPass = "Se ha enviado un correo con tus credenciales";
-        
+
         public Color colorOk = Color.FromArgb(167, 231, 183);
         public Color colorError = Color.FromArgb(255, 128, 128);
         public SmtpClient client = new SmtpClient();
@@ -112,7 +112,8 @@ namespace GHub
         {
             if (true) //si cuenta valida
             {
-                //Inserta en base de datos los credenciales                               
+                //Inserta en base de datos los credenciales       
+                crearCuenta();
                 labelErrorOkInfo.Text = okCuenta;
                 imagenErrorOk.BackgroundImage = Properties.Resources.ok;
                 panelPopupInfo.BackColor = colorOk;
@@ -135,43 +136,69 @@ namespace GHub
 
         private void btnEnviarEmailRecuperar_Click(object sender, EventArgs e)
         {
-            if (true)
+            try
             {
-                string msgCuerpo = "<html><p>Los credenciales con los que se ha registrado el usuario de email: " + email + "</p><p>Son los siguientes.</p><table style='height: 60px; width: 418px;' cellpadding='12'><tbody><tr style='height: 23px;'><td style='width: 260px; height: 23px;'>Nombre de usuario:</td><td style='width: 157px; height: 23px;'>" + user + "</td></tr><tr style='height: 9px;'><td style='width: 260px; height: 9px;'>Contrase&ntilde;a:</td><td style='width: 157px; height: 9px;'>" + pass + "</td></tr></tbody></table></html>";
-
-                //Enviar correo con credenciales
-
-                try
+                string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                using (SqlConnection conexion = new SqlConnection(cnn))
                 {
-                    MailMessage mail = new MailMessage("ghub.development@gmail.com", to, "Te has olvidado de tu contraseña?", msgCuerpo);
-                    SmtpClient client = new SmtpClient("smtp.gmail.com");
-                    client.Port = 587;
-                    client.Credentials = new System.Net.NetworkCredential("ghub.development@gmail.com", "qw3rty123456");
-                    client.EnableSsl = true;
-                    client.Send(mail);
-                    //ya ta
+                    string emailParametro ="", usuarioParametro = "", passwordParametro = "";                    
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM Usuarios WHERE email='" + emailParametro, conexion))
+                    {
+                        SqlDataReader dr = cmd.ExecuteReader();
 
+                        while (dr.Read())
+                        {
+                            usuarioParametro = dr.GetString(0);
+                            passwordParametro = dr.GetString(1);
+                            emailParametro = dr.GetString(2);
+                        }
+
+                        if (textboxEnviarCredenciales.Text==emailParametro)//Email es correcto
+                        {
+                            string msgCuerpo = "<html><p>Los credenciales con los que se ha registrado el usuario de email: "
+                                + emailParametro + "</p><p>Son los siguientes.</p><table style='height: 60px; width: 418px;' cellpadding='12'><tbody><tr style='height: 23px;'><td style='width: 260px; height: 23px;'>Nombre de usuario:</td><td style='width: 157px; height: 23px;'>"
+                                + usuarioParametro + "</td></tr><tr style='height: 9px;'><td style='width: 260px; height: 9px;'>Contrase&ntilde;a:</td><td style='width: 157px; height: 9px;'>"
+                                + passwordParametro + "</td></tr></tbody></table></html>";
+                            
+                            try
+                            {
+
+                                MailMessage mail = new MailMessage("ghub.development@gmail.com", emailParametro, "Te has olvidado de tu contraseña?", msgCuerpo);
+                                SmtpClient client = new SmtpClient("smtp.gmail.com");
+                                client.Port = 587;
+                                client.Credentials = new System.Net.NetworkCredential("ghub.development@gmail.com", "qw3rty123456");
+                                client.EnableSsl = true;
+                                client.Send(mail);
+
+                                //Mensaje enviado , mostrar panel
+                                labelErrorOkInfo.Text = okRecuperarPass;
+                                imagenErrorOk.BackgroundImage = Properties.Resources.ok;
+                                panelPopupInfo.BackColor = colorOk;
+                                
+
+                            }
+                            catch (Exception error)
+                            {
+                                MessageBox.Show("Unexpected Error: " + error);
+                            }
+
+                        }
+                        else
+                        {
+                            labelErrorOkInfo.Text = errorRecuperarPass;
+                            imagenErrorOk.BackgroundImage = Properties.Resources.error;
+                            panelPopupInfo.BackColor = colorError;
+
+                        }
+                    }
                 }
-                catch (Exception error)
-                {
-                    MessageBox.Show("Unexpected Error: " + error);
-                }
-
-                MessageBox.Show("Mail Send");
-
-                //Mensaje enviado panel
-                labelErrorOkInfo.Text = okRecuperarPass;
-                imagenErrorOk.BackgroundImage = Properties.Resources.ok;
-                panelPopupInfo.BackColor = colorOk;
-
             }
-            else
+            catch (Exception ex)
             {
-                labelErrorOkInfo.Text = errorRecuperarPass;
-                imagenErrorOk.BackgroundImage = Properties.Resources.error;
-                panelPopupInfo.BackColor = colorError;
-
+                MessageBox.Show(ex.ToString());
             }
+
             panelLogin.Visible = false;
             panelRegistro.Visible = false;
             panelReestablecerPass.Visible = false;
@@ -235,6 +262,7 @@ namespace GHub
                     using (SqlConnection conexion = new SqlConnection(cnn))
                     {
                         conexion.Open();
+                        Console.Error.WriteLine("Entre -----------");
                         SqlCommand sql = new SqlCommand("CrearUsuario", conexion);
                         sql.CommandType = CommandType.StoredProcedure;
                         sql.Parameters.AddWithValue("@usuario", txtboxNuevoUsuario.Text.Trim());
