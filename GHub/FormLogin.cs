@@ -143,7 +143,7 @@ namespace GHub
                 {
                     string emailParametro ="", usuarioParametro = "", passwordParametro = "";                    
                     conexion.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM Usuarios WHERE email='" + emailParametro, conexion))
+                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM t_usuarios WHERE email='" + emailParametro+"'", conexion))
                     {
                         SqlDataReader dr = cmd.ExecuteReader();
 
@@ -217,9 +217,9 @@ namespace GHub
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            iniciarSesion();
-            MessageBox.Show("F");
+            iniciarSesion();            
         }
+
         public void iniciarSesion()
         {
             try
@@ -230,24 +230,20 @@ namespace GHub
                     conexion.Open();
                     using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, steam_key, steam_id FROM t_usuarios WHERE usuario='" + textboxUser.Text + "' AND password='" + textboxPass.Text + "'", conexion))
                     {
-                        SqlDataReader dr = cmd.ExecuteReader();                        
-                        if (dr.HasRows) //Si devuelve alguna fila, tiene datos
-                        {
+                        SqlDataReader dr = cmd.ExecuteReader();
+                        while (dr.Read()) //Si devuelve alguna fila, tiene datos
+                        {                            
                             string usuario = dr.GetString(0);
                             string password = dr.GetString(1);
                             string steam_key = dr.GetString(2);
                             string steam_id = dr.GetString(3);
-                            //MessageBox.Show(usuario+"             "+password);
+                            
                             if (usuario==textboxUser.Text.Trim() && password == textboxPass.Text.Trim())
-                            {
-                                MessageBox.Show("Login exitoso, el usuario "+usuario+" se ha logueado correctamente contraseña="+password+".");
+                            {                               
                                 FormDatos formSteamData = new FormDatos(steam_key,steam_id);
                                 formSteamData.ShowDialog(this);
+                                this.Dispose();
                             }                           
-                        }
-                        else
-                        {
-                            MessageBox.Show("Datos incorrectos.");
                         }
                     }
                 }
