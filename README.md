@@ -6,3 +6,11 @@ Tras mucho pensar he optado en realizar la aplicación en Windows Forms porque a
 6/11/19 Formulario de registro con paneles añadido
 
 7/11/19 Corregidas imágenes, bases de datos en proceso, métodos recoger y parsear json (falta incluir y hacer los métodos para tratarlo)
+
+10/11/19 Acabar envio de email y insertar en sql server
+
+11/11/19 Ya registra usuarios
+
+12/11/19 json deserialzado, almacenar datos en los campos e insertarlos en la bd. Revisar documentación para el deserializado.Una vez recoja los datos, mostrarlos y usar api de steamspy para los tags. Una vez hecha esa parte, hacer socket y rematar haciendo expresiones regulares para el control de datos. Ver estructura en la documentacion de Newtonsoft.
+
+
