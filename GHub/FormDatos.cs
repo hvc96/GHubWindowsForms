@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Resources;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -21,14 +22,29 @@ namespace GHub
 
         private async void FormDatos_Load(object sender, EventArgs e)
         {
-            string respuesta = await getHttp();
-            ResponseJson dataJuegos = JsonConvert.DeserializeObject<ResponseJson>(respuesta);
-            //Una vez recoja los datos, mostrarlos y usar api de steamspy para los tags. 
-            //Una vez hecha esa parte, hacer socket y rematar haciendo expresiones regulares para el control de datos 
+            string respuesta = await getHttp();            
+            RootObject rootDatos = JsonConvert.DeserializeObject<RootObject>(respuesta);
 
-            MessageBox.Show("A " + dataJuegos);
-            dataGridViewPrincipal.DataSource = dataJuegos;
+            ////Una vez recoja los datos, mostrarlos y usar api de steamspy para los tags. 
+            ////Una vez hecha esa parte, hacer socket y rematar haciendo expresiones regulares para el control de datos 
 
+            MessageBox.Show("Tienes "+rootDatos.response.game_count + " juegos");
+
+            for (int i = 0; i < rootDatos.response.game_count; i++)
+            {
+                //dataGridViewPrincipal.Columns.Add
+                // dataGridViewPrincipal.Rows.Add(rootDatos.response.games[i]);
+                //MessageBox.Show("A " + dataJuegos.games[i]);
+            }
+
+
+
+
+        }
+
+        private void imagenBuscador_Click(object sender, EventArgs e)
+        {
+            //realizar la busqueda
         }
 
         public FormDatos(string key, string id)
@@ -36,6 +52,12 @@ namespace GHub
             InitializeComponent();
             steam_id = id;
             steam_key = key;
+
+            imagenBuscador.BackgroundImage = GHub.Properties.Resources.go;
+
+            dataGridViewPrincipal.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dataGridViewPrincipal.Columns[0].HeaderCell.Style.Alignment=DataGridViewContentAlignment.MiddleCenter;
+
         }
 
         public async Task<string> getHttp()
@@ -46,34 +68,36 @@ namespace GHub
             return await streamReader.ReadToEndAsync();
         }
     }
-    public class ResponseJson
-    {
-        [JsonProperty("game_count")]
-        public int game_count { get; set; }
 
-        [JsonProperty("games")]
-        public GameJson games { get; set; }
-    }
-    public class GameJson
-    {
-        [JsonProperty("games")]
-        public Game game { get; set; }
-    }
+
 
     public class Game
     {
-        [JsonProperty("appid")]
         public int appid { get; set; }
-
-        [JsonProperty("name")]
         public string name { get; set; }
-
-        [JsonProperty("img_icon_url")]
-        public int img_icon_url { get; set; }
-
-        [JsonProperty("img_logo_url")]
+        public int playtime_forever { get; set; }
+        public string img_icon_url { get; set; }
         public string img_logo_url { get; set; }
+        public bool has_community_visible_stats { get; set; }
+        public int playtime_windows_forever { get; set; }
+        public int playtime_mac_forever { get; set; }
+        public int playtime_linux_forever { get; set; }
+        public int? playtime_2weeks { get; set; }
     }
+
+    public class Response
+    {
+        public int game_count { get; set; }
+        public List<Game> games { get; set; }
+    }
+
+    public class RootObject
+    {
+        public Response response { get; set; }
+    }
+
+
+
     //appid             int
     //name              varchar(50)
     //developer         varchar(50)

@@ -20,6 +20,8 @@ namespace GHub
         public string errorRecuperarPass = "No existe ninguna cuenta con ese correo asociado";
         public string okRecuperarPass = "Se ha enviado un correo con tus credenciales";
 
+        public bool ver1 = false, ver2 =false;
+
         public Color colorOk = Color.FromArgb(167, 231, 183);
         public Color colorError = Color.FromArgb(255, 128, 128);
         public SmtpClient client = new SmtpClient();
@@ -257,6 +259,10 @@ namespace GHub
 
         public bool crearCuenta()
         {
+
+            //regexp     gmail     ^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$
+            //hacer      encode     pass
+
             try
             {
                 if (!(txtboxNuevoUsuario.Text == "" || txtboxNuevaPass.Text == "" ||
@@ -298,6 +304,36 @@ namespace GHub
         public void limpiarCampos()
         {
             txtboxNuevoUsuario.Text = txtboxNuevaPass.Text = txtboxRepetirPass.Text = txtboxNuevoEmail.Text = txtboxNuevaClave.Text = txtboxNuevoSteamID.Text = "";
+        }
+
+        private void ojoRepetirPass_Click(object sender, EventArgs e)
+        {
+            ver1 = !ver1;
+            if (ver1)
+            {
+                ojoRepetirPass.BackgroundImage = GHub.Properties.Resources.nover;
+                txtboxRepetirPass.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                ojoRepetirPass.BackgroundImage = GHub.Properties.Resources.ver;
+                txtboxRepetirPass.UseSystemPasswordChar = true;
+            }
+        }
+
+        private void ojoPass_Click(object sender, EventArgs e)
+        {
+            ver2 = !ver2;
+            if (ver2)
+            {
+                ojoPass.BackgroundImage = GHub.Properties.Resources.nover;
+                txtboxNuevaPass.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                ojoPass.BackgroundImage = GHub.Properties.Resources.ver;
+                txtboxNuevaPass.UseSystemPasswordChar = true;
+            }
         }
     }
 }
