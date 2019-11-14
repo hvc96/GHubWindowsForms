@@ -31,12 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDatos));
             this.dataGridViewPrincipal = new System.Windows.Forms.DataGridView();
-            this.appid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.img_logo_url = new System.Windows.Forms.DataGridViewImageColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.playtime_forever = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.link = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.favoritos = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.imagenBuscador = new System.Windows.Forms.PictureBox();
@@ -46,6 +40,7 @@
             this.picAccesoFavoritos = new System.Windows.Forms.PictureBox();
             this.picAccesoJuegos = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagenBuscador)).BeginInit();
@@ -60,59 +55,17 @@
             // 
             this.dataGridViewPrincipal.AllowUserToAddRows = false;
             this.dataGridViewPrincipal.AllowUserToDeleteRows = false;
+            this.dataGridViewPrincipal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPrincipal.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SunkenHorizontal;
+            this.dataGridViewPrincipal.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridViewPrincipal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewPrincipal.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.appid,
-            this.img_logo_url,
-            this.name,
-            this.playtime_forever,
-            this.link,
-            this.favoritos});
+            this.fav});
             this.dataGridViewPrincipal.Location = new System.Drawing.Point(0, 3);
             this.dataGridViewPrincipal.Name = "dataGridViewPrincipal";
             this.dataGridViewPrincipal.ReadOnly = true;
             this.dataGridViewPrincipal.Size = new System.Drawing.Size(936, 531);
             this.dataGridViewPrincipal.TabIndex = 0;
-            // 
-            // appid
-            // 
-            this.appid.HeaderText = "ID";
-            this.appid.Name = "appid";
-            this.appid.ReadOnly = true;
-            // 
-            // img_logo_url
-            // 
-            this.img_logo_url.HeaderText = "Logo";
-            this.img_logo_url.Name = "img_logo_url";
-            this.img_logo_url.ReadOnly = true;
-            this.img_logo_url.Width = 150;
-            // 
-            // name
-            // 
-            this.name.HeaderText = "Nombre";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 250;
-            // 
-            // playtime_forever
-            // 
-            this.playtime_forever.HeaderText = "Horas jugadas";
-            this.playtime_forever.Name = "playtime_forever";
-            this.playtime_forever.ReadOnly = true;
-            // 
-            // link
-            // 
-            this.link.HeaderText = "Enlace compra";
-            this.link.Name = "link";
-            this.link.ReadOnly = true;
-            this.link.Width = 273;
-            // 
-            // favoritos
-            // 
-            this.favoritos.HeaderText = "♥";
-            this.favoritos.Name = "favoritos";
-            this.favoritos.ReadOnly = true;
-            this.favoritos.Width = 20;
             // 
             // imageList1
             // 
@@ -204,6 +157,12 @@
             this.panel3.Size = new System.Drawing.Size(939, 537);
             this.panel3.TabIndex = 4;
             // 
+            // fav
+            // 
+            this.fav.HeaderText = "Favorito";
+            this.fav.Name = "fav";
+            this.fav.ReadOnly = true;
+            // 
             // FormDatos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,16 +195,11 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox imagenBuscador;
         private MaterialSkin.Controls.MaterialSingleLineTextField materialSingleLineTextField1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn appid;
-        private System.Windows.Forms.DataGridViewImageColumn img_logo_url;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn playtime_forever;
-        private System.Windows.Forms.DataGridViewLinkColumn link;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn favoritos;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox picAccesoAjustes;
         private System.Windows.Forms.PictureBox picAccesoFavoritos;
         private System.Windows.Forms.PictureBox picAccesoJuegos;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn fav;
     }
 }

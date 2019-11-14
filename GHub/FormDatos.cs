@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using System.Web;
 using System.Net;
 using System.IO;
+using Json.Net;
+
 
 namespace GHub
 {
@@ -22,30 +24,55 @@ namespace GHub
 
         private async void FormDatos_Load(object sender, EventArgs e)
         {
-            string respuesta = await getHttp();            
+            string respuesta = await getHttp();
+            var source = new BindingSource();
             RootObject rootDatos = JsonConvert.DeserializeObject<RootObject>(respuesta);
+            Response response = rootDatos.response;
 
-            ////Una vez recoja los datos, mostrarlos y usar api de steamspy para los tags. 
-            ////Una vez hecha esa parte, hacer socket y rematar haciendo expresiones regulares para el control de datos 
+            List<Game> games = response.games;
+            source.DataSource = games;
 
-            MessageBox.Show("Tienes "+rootDatos.response.game_count + " juegos");
 
-            for (int i = 0; i < rootDatos.response.game_count; i++)
+            dataGridViewPrincipal.DataSource = source;
+
+            for (int i = 0; i < response.game_count; i++)
             {
-                //dataGridViewPrincipal.Columns.Add
-                // dataGridViewPrincipal.Rows.Add(rootDatos.response.games[i]);
-                //MessageBox.Show("A " + dataJuegos.games[i]);
+                //List<Image> imagenes=null;
+                //var request = WebRequest.Create("http://media.steampowered.com/steamcommunity/public/images/apps/" + response.games[i].appid + "//" + response.games[i].img_logo_url + ".jpg");
+                //using (var res = request.GetResponse())
+                //using (var stream = res.GetResponseStream())
+                //{
+                //    ////imagenes.Add(Bitmap.FromStream(stream));
+                //    //dataGridViewPrincipal.Rows[0].Cells[i].Value = imagen;
+                //}
+
+
+                /*
+                DataGridViewImageColumn ic = new DataGridViewImageColumn();
+                ic.HeaderText = "LOGO";
+                ic.Image = null;
+                ic.Name = "cImg";
+                ic.Width = 100;
+                dataGridViewPrincipal.Columns.Add(ic);
+
+
+                foreach (DataGridViewRow row in dataGridViewPrincipal.Rows)
+                {
+                    DataGridViewImageCell cell = row.Cells[1] as DataGridViewImageCell;
+                    cell.Value = (System.Drawing.Image)Properties.Resources.Icon_delete;
+                }
+                */
+
+               
             }
-
-
-
-
         }
+
 
         private void imagenBuscador_Click(object sender, EventArgs e)
         {
             //realizar la busqueda
         }
+
 
         public FormDatos(string key, string id)
         {
@@ -56,7 +83,7 @@ namespace GHub
             imagenBuscador.BackgroundImage = GHub.Properties.Resources.go;
 
             dataGridViewPrincipal.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridViewPrincipal.Columns[0].HeaderCell.Style.Alignment=DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewPrincipal.Columns[0].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
         }
 
@@ -76,13 +103,9 @@ namespace GHub
         public int appid { get; set; }
         public string name { get; set; }
         public int playtime_forever { get; set; }
-        public string img_icon_url { get; set; }
         public string img_logo_url { get; set; }
-        public bool has_community_visible_stats { get; set; }
         public int playtime_windows_forever { get; set; }
-        public int playtime_mac_forever { get; set; }
-        public int playtime_linux_forever { get; set; }
-        public int? playtime_2weeks { get; set; }
+        public int playtime_2weeks { get; set; }
     }
 
     public class Response
