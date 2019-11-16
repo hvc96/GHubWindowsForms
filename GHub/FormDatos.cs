@@ -14,13 +14,17 @@ using System.Web;
 using System.Net;
 using System.IO;
 using Json.Net;
-
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace GHub
 {
     public partial class FormDatos : MaterialSkin.Controls.MaterialForm
     {
         public string steam_key, steam_id, url;
+        public int user_id;
+        public List<Game> juegosFav;
+        public bool borrado;
 
         private async void FormDatos_Load(object sender, EventArgs e)
         {
@@ -32,59 +36,177 @@ namespace GHub
             List<Game> games = response.games;
             source.DataSource = games;
 
+            labelTotalJuegos.Text = response.game_count.ToString();
 
             dataGridViewPrincipal.DataSource = source;
+        }
 
-            for (int i = 0; i < response.game_count; i++)
+        private void dataGridViewPrincipal_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && e.RowIndex > -1 && dataGridViewPrincipal.Rows[e.RowIndex].Cells[0].IsInEditMode)
             {
-                //List<Image> imagenes=null;
-                //var request = WebRequest.Create("http://media.steampowered.com/steamcommunity/public/images/apps/" + response.games[i].appid + "//" + response.games[i].img_logo_url + ".jpg");
-                //using (var res = request.GetResponse())
-                //using (var stream = res.GetResponseStream())
-                //{
-                //    ////imagenes.Add(Bitmap.FromStream(stream));
-                //    //dataGridViewPrincipal.Rows[0].Cells[i].Value = imagen;
-                //}
-
-
-                /*
-                DataGridViewImageColumn ic = new DataGridViewImageColumn();
-                ic.HeaderText = "LOGO";
-                ic.Image = null;
-                ic.Name = "cImg";
-                ic.Width = 100;
-                dataGridViewPrincipal.Columns.Add(ic);
-
-
-                foreach (DataGridViewRow row in dataGridViewPrincipal.Rows)
-                {
-                    DataGridViewImageCell cell = row.Cells[1] as DataGridViewImageCell;
-                    cell.Value = (System.Drawing.Image)Properties.Resources.Icon_delete;
-                }
-                */
-
-               
+                dataGridViewPrincipal.EndEdit();
+            }
+        }
+        private void dataGridViewPrincipal_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            dataGridViewPrincipal.ClearSelection();
+            for (int i = 0; i < dataGridViewPrincipal.Columns.Count; ++i)
+            {
+                dataGridViewPrincipal.Rows[e.RowIndex].Cells[i].Selected = true;
             }
         }
 
 
-        private void imagenBuscador_Click(object sender, EventArgs e)
+        private void dataGridViewPrincipal_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            //realizar la busqueda
+            dataGridViewPrincipal.ClearSelection();
+            for (int i = 0; i < dataGridViewPrincipal.Rows.Count; ++i)
+            {
+                dataGridViewPrincipal.Rows[i].Cells[e.ColumnIndex].Selected = true;
+            }
         }
 
+        private void picGuardar_Click(object sender, EventArgs e)
+        {
+            juegosFav = new List<Game>();
+            juegosFav.Clear();
 
-        public FormDatos(string key, string id)
+            if (dataGridViewPrincipal.Rows.Count - 1 > 0)
+            {
+                for (int i = 0; i < dataGridViewPrincipal.Rows.Count - 1; i++)
+                {
+
+                    if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null && dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString()=="True")
+                    {
+                        Game game = new Game();
+                        game.appid = Convert.ToInt32(dataGridViewPrincipal.Rows[i].Cells[1].Value);
+                        game.name = dataGridViewPrincipal.Rows[i].Cells[2].Value.ToString();
+                        game.playtime_forever = Convert.ToInt32(dataGridViewPrincipal.Rows[i].Cells[3].Value);
+                        game.img_logo_url = dataGridViewPrincipal.Rows[i].Cells[4].Value.ToString();
+                        game.playtime_windows_forever = Convert.ToInt32(dataGridViewPrincipal.Rows[i].Cells[5].Value);
+                        game.playtime_2weeks = Convert.ToInt32(dataGridViewPrincipal.Rows[i].Cells[6].Value);
+
+                        juegosFav.Add(game);
+                    }
+                }
+            }
+            try
+            {
+                if (juegosFav.Count > 0)
+                {
+                    for (int j = 0; j < juegosFav.Count; j++)
+                    {
+                        string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                        using (SqlConnection conexion = new SqlConnection(cnn))
+                        {
+                            conexion.Open();
+                            SqlCommand sql = new SqlCommand("JuegosAdd", conexion);
+                            sql.CommandType = CommandType.StoredProcedure;
+                            sql.Parameters.AddWithValue("@user_id", user_id);
+                            sql.Parameters.AddWithValue("@appid", juegosFav[j].appid);
+                            sql.Parameters.AddWithValue("@name", juegosFav[j].name);
+                            sql.Parameters.AddWithValue("@playtime_forever", juegosFav[j].playtime_forever);
+                            sql.Parameters.AddWithValue("@img_logo_url", juegosFav[j].img_logo_url);
+                            sql.Parameters.AddWithValue("@playtime_windows_forever", juegosFav[j].playtime_windows_forever);
+                            sql.Parameters.AddWithValue("@playtime_2weeks", juegosFav[j].playtime_windows_forever);
+                            sql.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+            juegosFav.Clear();
+        }
+
+        private void picAccesoFavoritos_Click(object sender, EventArgs e)
+        {
+            panelJuegos.Visible = false;
+            panelFavoritos.Visible = true;
+            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+            using (SqlConnection conexion = new SqlConnection(cnn))
+            {
+                SqlCommand comando = new SqlCommand("select distinct user_id,appid,name, playtime_forever, img_logo_url, playtime_windows_forever,playtime_2weeks from t_juegosFavoritos where user_id=" + user_id, conexion);
+                SqlDataAdapter adaptador = new SqlDataAdapter();
+                adaptador.SelectCommand = comando;
+                DataTable tabla = new DataTable();
+                adaptador.Fill(tabla);
+                dataGridViewFavoritos.DataSource = tabla;
+            }
+        }
+
+        private void picAccesoJuegos_Click(object sender, EventArgs e)
+        {
+            panelJuegos.Visible = true;
+            panelFavoritos.Visible = false;
+        }
+
+        private void picAccesoAjustes_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Programa realizado por Hadrián Villar Cuadrado \r\nEn un futuro se podrá elegir desde un panel la configuracion de la cuenta y las plataformas de videojuegos con las que te estes conectado, por el momento está WIP\r\n", "- - - - INFORMACIÓN - - - -", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void FormDatos_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
+
+        private void dataGridViewPrincipal_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridViewPrincipal.Rows.Count - 1 > 0)
+            {
+                for (int i = 0; i < dataGridViewPrincipal.Rows.Count - 1; i++)
+                {
+
+                    if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null)
+                    {
+                        if (dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString().Equals("False"))
+                        {
+                            string a = dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString();
+                            MessageBox.Show(a);
+                            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                            using (SqlConnection conexion = new SqlConnection(cnn))
+                            {
+                                conexion.Open();
+                                SqlCommand comando = new SqlCommand("delete from t_juegosFavoritos where @appid && @user_id", conexion);
+                                //SqlCommand comando2 = new SqlCommand("select * from t_juegosFavoritos where user_id=" + user_id, conexion);
+                                comando.Parameters.AddWithValue("@appid", dataGridViewPrincipal.Rows[i].Cells[2]);
+                                comando.Parameters.AddWithValue("@user_id", user_id);
+                                comando.ExecuteNonQuery();
+                                conexion.Close();
+                                MessageBox.Show("eliminado");
+
+
+
+                                //SqlCommand comando = new SqlCommand("insert into Arope(REGION,DEPENDENCIA,OPERACION,SIGLAUNIDAD,SECCION,DEPARTAMENTO,MUNICIPIO,[OF],SUB,PT,TOTALFD,GR,NOMBRESYAPELLIDOS,CEDULA,CARGO,UBICACION,MISION,ACTOADMIN,LATITUD,LONGITUD) values (@region,@dependencia,@operacion,@siglaUnidad,@seccion,@departamento,@municipio,@of,@sub,@pt,@totalFd,@gr,@nombresyapellidos,@cedula,@cargo,@ubicacion,@mision,@actoAdmin,@latitud,@longitud)", conec);
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public FormDatos(int id, string s_key, string s_id, string user)
         {
             InitializeComponent();
-            steam_id = id;
-            steam_key = key;
+            user_id = id;
+            steam_id = s_id;
+            steam_key = s_key;
+            labelNombreUsuario.Text = user;
 
-            imagenBuscador.BackgroundImage = GHub.Properties.Resources.go;
 
-            dataGridViewPrincipal.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridViewPrincipal.Columns[0].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            panelFavoritos.Location = new Point(61, 114);
+            panelFavoritos.Size = new Size(939, 537);
+            panelJuegos.Location = new Point(61, 114);
+            panelJuegos.Size = new Size(939, 537);
 
+            panelJuegos.Visible = true;
+            panelFavoritos.Visible = false;
         }
 
         public async Task<string> getHttp()
@@ -95,9 +217,6 @@ namespace GHub
             return await streamReader.ReadToEndAsync();
         }
     }
-
-
-
     public class Game
     {
         public int appid { get; set; }
@@ -118,31 +237,4 @@ namespace GHub
     {
         public Response response { get; set; }
     }
-
-
-
-    //appid             int
-    //name              varchar(50)
-    //developer         varchar(50)
-    //average_forever   int
-    //genre             varchar(50)
-
-
-    /*
-     {  
-       "response":{  
-          "game_count":948,
-          "games":[  
-             {  
-                "appid":10,
-                "name":"Counter-Strike",
-                "playtime_forever":32,
-                "img_icon_url":"6b0312cda02f5f777efa2f3318c307ff9acafbb5",
-                "img_logo_url":"af890f848dd606ac2fd4415de3c3f5e7a66fcb9f",
-                "has_community_visible_stats":true,
-                "playtime_windows_forever":0,
-                "playtime_mac_forever":0,
-                "playtime_linux_forever":0
-             },
-     */
 }

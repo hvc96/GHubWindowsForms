@@ -32,12 +32,16 @@
             this.panelLogin = new System.Windows.Forms.Panel();
             this.labelRegistrarse = new System.Windows.Forms.Label();
             this.labelOlvido = new System.Windows.Forms.Label();
+            this.imagenPerfil = new System.Windows.Forms.PictureBox();
             this.textboxUser = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.textboxPass = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.btnLogin = new MaterialSkin.Controls.MaterialRaisedButton();
             this.panelRegistro = new System.Windows.Forms.Panel();
+            this.ojoPass = new System.Windows.Forms.PictureBox();
+            this.ojoRepetirPass = new System.Windows.Forms.PictureBox();
             this.labelErrorCampos = new System.Windows.Forms.Label();
             this.btnCrearUsuario = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.imagenSteam = new System.Windows.Forms.PictureBox();
             this.linkSteamId = new System.Windows.Forms.LinkLabel();
             this.linkClaveSteam = new System.Windows.Forms.LinkLabel();
             this.txtboxNuevoSteamID = new MaterialSkin.Controls.MaterialSingleLineTextField();
@@ -49,6 +53,7 @@
             this.txtboxNuevaPass = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.txtboxNuevoUsuario = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.panelReestablecerPass = new System.Windows.Forms.Panel();
+            this.imagenAtras = new System.Windows.Forms.PictureBox();
             this.btnEnviarEmailRecuperar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.textboxEnviarCredenciales = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.labelLeyendaCorreo = new System.Windows.Forms.Label();
@@ -57,23 +62,18 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panelPopupInfo = new System.Windows.Forms.Panel();
             this.labelErrorOkInfo = new System.Windows.Forms.Label();
-            this.ojoPass = new System.Windows.Forms.PictureBox();
-            this.ojoRepetirPass = new System.Windows.Forms.PictureBox();
-            this.imagenSteam = new System.Windows.Forms.PictureBox();
             this.imagenErrorOk = new System.Windows.Forms.PictureBox();
-            this.imagenAtras = new System.Windows.Forms.PictureBox();
-            this.imagenPerfil = new System.Windows.Forms.PictureBox();
             this.panelLogin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenPerfil)).BeginInit();
             this.panelRegistro.SuspendLayout();
-            this.panelReestablecerPass.SuspendLayout();
-            this.panelInfoAuxiliar.SuspendLayout();
-            this.panelPopupInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ojoPass)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ojoRepetirPass)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagenSteam)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imagenErrorOk)).BeginInit();
+            this.panelReestablecerPass.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagenAtras)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imagenPerfil)).BeginInit();
+            this.panelInfoAuxiliar.SuspendLayout();
+            this.panelPopupInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenErrorOk)).BeginInit();
             this.SuspendLayout();
             // 
             // panelLogin
@@ -115,6 +115,18 @@
             this.labelOlvido.TabIndex = 3;
             this.labelOlvido.Text = "¿Has olvidado la contraseña?";
             this.labelOlvido.Click += new System.EventHandler(this.labelOlvido_Click);
+            // 
+            // imagenPerfil
+            // 
+            this.imagenPerfil.BackColor = System.Drawing.Color.Transparent;
+            this.imagenPerfil.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.imagenPerfil.InitialImage = null;
+            this.imagenPerfil.Location = new System.Drawing.Point(384, 45);
+            this.imagenPerfil.Name = "imagenPerfil";
+            this.imagenPerfil.Size = new System.Drawing.Size(122, 125);
+            this.imagenPerfil.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imagenPerfil.TabIndex = 8;
+            this.imagenPerfil.TabStop = false;
             // 
             // textboxUser
             // 
@@ -183,6 +195,28 @@
             this.panelRegistro.TabIndex = 11;
             this.panelRegistro.Visible = false;
             // 
+            // ojoPass
+            // 
+            this.ojoPass.BackgroundImage = global::GHub.Properties.Resources.ver;
+            this.ojoPass.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ojoPass.Location = new System.Drawing.Point(421, 137);
+            this.ojoPass.Name = "ojoPass";
+            this.ojoPass.Size = new System.Drawing.Size(20, 20);
+            this.ojoPass.TabIndex = 18;
+            this.ojoPass.TabStop = false;
+            this.ojoPass.Click += new System.EventHandler(this.ojoPass_Click);
+            // 
+            // ojoRepetirPass
+            // 
+            this.ojoRepetirPass.BackgroundImage = global::GHub.Properties.Resources.ver;
+            this.ojoRepetirPass.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ojoRepetirPass.Location = new System.Drawing.Point(421, 188);
+            this.ojoRepetirPass.Name = "ojoRepetirPass";
+            this.ojoRepetirPass.Size = new System.Drawing.Size(20, 20);
+            this.ojoRepetirPass.TabIndex = 17;
+            this.ojoRepetirPass.TabStop = false;
+            this.ojoRepetirPass.Click += new System.EventHandler(this.ojoRepetirPass_Click);
+            // 
             // labelErrorCampos
             // 
             this.labelErrorCampos.AutoSize = true;
@@ -208,6 +242,15 @@
             this.btnCrearUsuario.Text = "CREAR USUARIO";
             this.btnCrearUsuario.UseVisualStyleBackColor = true;
             this.btnCrearUsuario.Click += new System.EventHandler(this.btnCrearUsuario_Click);
+            // 
+            // imagenSteam
+            // 
+            this.imagenSteam.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.imagenSteam.Location = new System.Drawing.Point(29, 403);
+            this.imagenSteam.Name = "imagenSteam";
+            this.imagenSteam.Size = new System.Drawing.Size(94, 100);
+            this.imagenSteam.TabIndex = 12;
+            this.imagenSteam.TabStop = false;
             // 
             // linkSteamId
             // 
@@ -357,6 +400,16 @@
             this.panelReestablecerPass.TabIndex = 14;
             this.panelReestablecerPass.Visible = false;
             // 
+            // imagenAtras
+            // 
+            this.imagenAtras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.imagenAtras.Location = new System.Drawing.Point(3, 0);
+            this.imagenAtras.Name = "imagenAtras";
+            this.imagenAtras.Size = new System.Drawing.Size(47, 55);
+            this.imagenAtras.TabIndex = 15;
+            this.imagenAtras.TabStop = false;
+            this.imagenAtras.Click += new System.EventHandler(this.imagenAtras_Click);
+            // 
             // btnEnviarEmailRecuperar
             // 
             this.btnEnviarEmailRecuperar.Depth = 0;
@@ -447,37 +500,6 @@
             this.labelErrorOkInfo.TabIndex = 1;
             this.labelErrorOkInfo.Text = "No exite ninguna cuenta con ese correo asociado";
             // 
-            // ojoPass
-            // 
-            this.ojoPass.BackgroundImage = global::GHub.Properties.Resources.ver;
-            this.ojoPass.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ojoPass.Location = new System.Drawing.Point(421, 137);
-            this.ojoPass.Name = "ojoPass";
-            this.ojoPass.Size = new System.Drawing.Size(20, 20);
-            this.ojoPass.TabIndex = 18;
-            this.ojoPass.TabStop = false;
-            this.ojoPass.Click += new System.EventHandler(this.ojoPass_Click);
-            // 
-            // ojoRepetirPass
-            // 
-            this.ojoRepetirPass.BackgroundImage = global::GHub.Properties.Resources.ver;
-            this.ojoRepetirPass.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ojoRepetirPass.Location = new System.Drawing.Point(421, 188);
-            this.ojoRepetirPass.Name = "ojoRepetirPass";
-            this.ojoRepetirPass.Size = new System.Drawing.Size(20, 20);
-            this.ojoRepetirPass.TabIndex = 17;
-            this.ojoRepetirPass.TabStop = false;
-            this.ojoRepetirPass.Click += new System.EventHandler(this.ojoRepetirPass_Click);
-            // 
-            // imagenSteam
-            // 
-            this.imagenSteam.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.imagenSteam.Location = new System.Drawing.Point(29, 403);
-            this.imagenSteam.Name = "imagenSteam";
-            this.imagenSteam.Size = new System.Drawing.Size(94, 100);
-            this.imagenSteam.TabIndex = 12;
-            this.imagenSteam.TabStop = false;
-            // 
             // imagenErrorOk
             // 
             this.imagenErrorOk.BackgroundImage = global::GHub.Properties.Resources.ok;
@@ -487,28 +509,6 @@
             this.imagenErrorOk.Size = new System.Drawing.Size(41, 56);
             this.imagenErrorOk.TabIndex = 0;
             this.imagenErrorOk.TabStop = false;
-            // 
-            // imagenAtras
-            // 
-            this.imagenAtras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.imagenAtras.Location = new System.Drawing.Point(3, 0);
-            this.imagenAtras.Name = "imagenAtras";
-            this.imagenAtras.Size = new System.Drawing.Size(47, 55);
-            this.imagenAtras.TabIndex = 15;
-            this.imagenAtras.TabStop = false;
-            this.imagenAtras.Click += new System.EventHandler(this.imagenAtras_Click);
-            // 
-            // imagenPerfil
-            // 
-            this.imagenPerfil.BackColor = System.Drawing.Color.Transparent;
-            this.imagenPerfil.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.imagenPerfil.InitialImage = null;
-            this.imagenPerfil.Location = new System.Drawing.Point(384, 45);
-            this.imagenPerfil.Name = "imagenPerfil";
-            this.imagenPerfil.Size = new System.Drawing.Size(122, 125);
-            this.imagenPerfil.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.imagenPerfil.TabIndex = 8;
-            this.imagenPerfil.TabStop = false;
             // 
             // FormLogin
             // 
@@ -527,20 +527,20 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.panelLogin.ResumeLayout(false);
             this.panelLogin.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenPerfil)).EndInit();
             this.panelRegistro.ResumeLayout(false);
             this.panelRegistro.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ojoPass)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ojoRepetirPass)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenSteam)).EndInit();
             this.panelReestablecerPass.ResumeLayout(false);
             this.panelReestablecerPass.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imagenAtras)).EndInit();
             this.panelInfoAuxiliar.ResumeLayout(false);
             this.panelInfoAuxiliar.PerformLayout();
             this.panelPopupInfo.ResumeLayout(false);
             this.panelPopupInfo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ojoPass)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ojoRepetirPass)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imagenSteam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagenErrorOk)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imagenAtras)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imagenPerfil)).EndInit();
             this.ResumeLayout(false);
 
         }

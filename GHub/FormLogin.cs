@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace GHub
 {
@@ -20,7 +21,7 @@ namespace GHub
         public string errorRecuperarPass = "No existe ninguna cuenta con ese correo asociado";
         public string okRecuperarPass = "Se ha enviado un correo con tus credenciales";
 
-        public bool ver1 = false, ver2 =false;
+        public bool ver1 = false, ver2 = false;
 
         public Color colorOk = Color.FromArgb(167, 231, 183);
         public Color colorError = Color.FromArgb(255, 128, 128);
@@ -31,10 +32,6 @@ namespace GHub
         public FormLogin()
         {
             InitializeComponent();
-
-            //Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True; string conexion
-            //Referencia para los colores https://www.materialui.co/colors
-
             var skinManager = MaterialSkin.MaterialSkinManager.Instance;
             skinManager.AddFormToManage(this);
             skinManager.Theme = MaterialSkin.MaterialSkinManager.Themes.LIGHT;
@@ -65,7 +62,6 @@ namespace GHub
             panelLogin.Visible = false;
             panelReestablecerPass.Visible = false;
             panelInfoAuxiliar.Visible = false;
-            MessageBox.Show("Regsitrarse");
         }
 
         private void labelYaTengoCuenta_Click(object sender, EventArgs e)
@@ -74,8 +70,6 @@ namespace GHub
             panelRegistro.Visible = false;
             panelReestablecerPass.Visible = false;
             panelInfoAuxiliar.Visible = false;
-            MessageBox.Show("ya tengo cuenta");
-
         }
 
         private void labelOlvido_Click(object sender, EventArgs e)
@@ -84,8 +78,6 @@ namespace GHub
             panelLogin.Visible = false;
             panelRegistro.Visible = false;
             panelInfoAuxiliar.Visible = false;
-            MessageBox.Show("olvido");
-
         }
 
         private void imagenAtras_Click(object sender, EventArgs e)
@@ -112,7 +104,7 @@ namespace GHub
 
         private void btnCrearUsuario_Click(object sender, EventArgs e)
         {
-            if (true) //si cuenta valida
+            try
             {
                 //Inserta en base de datos los credenciales       
                 crearCuenta();
@@ -120,19 +112,17 @@ namespace GHub
                 imagenErrorOk.BackgroundImage = Properties.Resources.ok;
                 panelPopupInfo.BackColor = colorOk;
             }
-            else
+            catch (Exception Exc)
             {
                 labelErrorOkInfo.Text = errorCuenta;
                 imagenErrorOk.BackgroundImage = Properties.Resources.error;
                 panelPopupInfo.BackColor = colorError;
-
+                Console.Error.WriteLine(Exc.Message);
             }
             panelInfoAuxiliar.Visible = true;
             panelLogin.Visible = false;
             panelRegistro.Visible = false;
             panelReestablecerPass.Visible = false;
-
-            MessageBox.Show("crearusuario");
 
         }
 
@@ -143,9 +133,9 @@ namespace GHub
                 string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
                 using (SqlConnection conexion = new SqlConnection(cnn))
                 {
-                    string emailParametro ="", usuarioParametro = "", passwordParametro = "";                    
+                    string emailParametro = "", usuarioParametro = "", passwordParametro = "";
                     conexion.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM t_usuarios WHERE email='" + emailParametro+"'", conexion))
+                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM t_usuarios WHERE email='" + emailParametro + "'", conexion))
                     {
                         SqlDataReader dr = cmd.ExecuteReader();
 
@@ -156,13 +146,13 @@ namespace GHub
                             emailParametro = dr.GetString(2);
                         }
 
-                        if (textboxEnviarCredenciales.Text==emailParametro)//Email es correcto
+                        if (textboxEnviarCredenciales.Text == emailParametro)//Email es correcto
                         {
                             string msgCuerpo = "<html><p>Los credenciales con los que se ha registrado el usuario de email: "
                                 + emailParametro + "</p><p>Son los siguientes.</p><table style='height: 60px; width: 418px;' cellpadding='12'><tbody><tr style='height: 23px;'><td style='width: 260px; height: 23px;'>Nombre de usuario:</td><td style='width: 157px; height: 23px;'>"
                                 + usuarioParametro + "</td></tr><tr style='height: 9px;'><td style='width: 260px; height: 9px;'>Contrase&ntilde;a:</td><td style='width: 157px; height: 9px;'>"
                                 + passwordParametro + "</td></tr></tbody></table></html>";
-                            
+
                             try
                             {
 
@@ -177,7 +167,7 @@ namespace GHub
                                 labelErrorOkInfo.Text = okRecuperarPass;
                                 imagenErrorOk.BackgroundImage = Properties.Resources.ok;
                                 panelPopupInfo.BackColor = colorOk;
-                                
+
 
                             }
                             catch (Exception error)
@@ -205,8 +195,6 @@ namespace GHub
             panelRegistro.Visible = false;
             panelReestablecerPass.Visible = false;
             panelInfoAuxiliar.Visible = true;
-            MessageBox.Show("recuperaremail");
-
         }
 
         private void panelInfoAuxiliar_Click(object sender, EventArgs e)
@@ -219,56 +207,50 @@ namespace GHub
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            iniciarSesion();            
+            iniciarSesion();
         }
 
         public void iniciarSesion()
         {
-            try
+
+            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+            using (SqlConnection conexion = new SqlConnection(cnn))
             {
-                string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-                using (SqlConnection conexion = new SqlConnection(cnn))
+                conexion.Open();
+                using (SqlCommand cmd = new SqlCommand("SELECT id, usuario, password, steam_key, steam_id FROM t_usuarios WHERE usuario='" + textboxUser.Text + "' AND password='" + textboxPass.Text + "'", conexion))
                 {
-                    conexion.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, steam_key, steam_id FROM t_usuarios WHERE usuario='" + textboxUser.Text + "' AND password='" + textboxPass.Text + "'", conexion))
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read()) //Si devuelve alguna fila, tiene datos
                     {
-                        SqlDataReader dr = cmd.ExecuteReader();
-                        while (dr.Read()) //Si devuelve alguna fila, tiene datos
-                        {                            
-                            string usuario = dr.GetString(0);
-                            string password = dr.GetString(1);
-                            string steam_key = dr.GetString(2);
-                            string steam_id = dr.GetString(3);
-                            
-                            if (usuario==textboxUser.Text.Trim() && password == textboxPass.Text.Trim())
-                            {                               
-                                FormDatos formSteamData = new FormDatos(steam_key,steam_id);
-                                formSteamData.ShowDialog(this);
-                                this.Dispose();
-                            }                           
+                        int id = dr.GetInt32(0);
+                        string usuario = dr.GetString(1);
+                        string password = dr.GetString(2);
+                        string steam_key = dr.GetString(3);
+                        string steam_id = dr.GetString(4);
+
+                        if (usuario == textboxUser.Text.Trim() && password == textboxPass.Text.Trim())
+                        {
+                            FormDatos formSteamData = new FormDatos(id, steam_key, steam_id, usuario);
+                            this.Hide();
+                            formSteamData.ShowDialog(this);
+                            this.Dispose();
                         }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
         }
 
         public bool crearCuenta()
         {
-
-            //regexp     gmail     ^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$
-            //hacer      encode     pass
-
+            //Gmail valido
+            Regex r = new Regex(@"^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$");
             try
             {
                 if (!(txtboxNuevoUsuario.Text == "" || txtboxNuevaPass.Text == "" ||
                     txtboxRepetirPass.Text == "" || txtboxNuevoEmail.Text == "" ||
                     txtboxNuevaClave.Text == "" || txtboxNuevoSteamID.Text == "")
-                    && (txtboxNuevaPass.Text == txtboxRepetirPass.Text))
+                    && (txtboxNuevaPass.Text == txtboxRepetirPass.Text)
+                    && (r.Match(txtboxNuevoEmail.Text).Success))
                 {
                     string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
                     using (SqlConnection conexion = new SqlConnection(cnn))
@@ -294,7 +276,6 @@ namespace GHub
             }
             catch (Exception ex)
             {
-                //En caso de error mostrar mensaje
                 MessageBox.Show(ex.ToString());
                 return false;
             }
