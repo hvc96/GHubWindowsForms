@@ -16,12 +16,13 @@ using System.IO;
 using Json.Net;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Net.Sockets;
 
 namespace GHub
 {
     public partial class FormDatos : MaterialSkin.Controls.MaterialForm
     {
-        public string steam_key, steam_id, url;
+        public string steam_key, steam_id, url, data;
         public int user_id;
         public List<Game> juegosFav;
         public bool borrado;
@@ -77,7 +78,7 @@ namespace GHub
                 for (int i = 0; i < dataGridViewPrincipal.Rows.Count - 1; i++)
                 {
 
-                    if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null && dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString()=="True")
+                    if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null && dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString() == "True")
                     {
                         Game game = new Game();
                         game.appid = Convert.ToInt32(dataGridViewPrincipal.Rows[i].Cells[1].Value);
@@ -114,6 +115,7 @@ namespace GHub
                         }
                     }
                 }
+                MessageBox.Show("Datos guardados localmente");
             }
             catch (Exception ex)
             {
@@ -172,19 +174,53 @@ namespace GHub
                             using (SqlConnection conexion = new SqlConnection(cnn))
                             {
                                 conexion.Open();
-                                SqlCommand comando = new SqlCommand("delete from t_juegosFavoritos where @appid && @user_id", conexion);
-                                //SqlCommand comando2 = new SqlCommand("select * from t_juegosFavoritos where user_id=" + user_id, conexion);
+                                SqlCommand comando = new SqlCommand("delete from t_juegosFavoritos where appid=@appid && [user_id]=@user_id", conexion);
                                 comando.Parameters.AddWithValue("@appid", dataGridViewPrincipal.Rows[i].Cells[2]);
                                 comando.Parameters.AddWithValue("@user_id", user_id);
                                 comando.ExecuteNonQuery();
                                 conexion.Close();
-                                MessageBox.Show("eliminado");
-
-
-
-                                //SqlCommand comando = new SqlCommand("insert into Arope(REGION,DEPENDENCIA,OPERACION,SIGLAUNIDAD,SECCION,DEPARTAMENTO,MUNICIPIO,[OF],SUB,PT,TOTALFD,GR,NOMBRESYAPELLIDOS,CEDULA,CARGO,UBICACION,MISION,ACTOADMIN,LATITUD,LONGITUD) values (@region,@dependencia,@operacion,@siglaUnidad,@seccion,@departamento,@municipio,@of,@sub,@pt,@totalFd,@gr,@nombresyapellidos,@cedula,@cargo,@ubicacion,@mision,@actoAdmin,@latitud,@longitud)", conec);
-
+                                MessageBox.Show("Eliminado");
                             }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void picBusqueda_Click(object sender, EventArgs e)
+        {
+            FormBusqueda fBusqueda = new FormBusqueda();
+            dataGridViewPrincipal.ClearSelection();
+
+
+            Socket listen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            Socket conexion;
+            IPEndPoint connect = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8910);
+            listen.Bind(connect);
+            listen.Listen(1);
+            conexion = listen.Accept();
+
+            byte[] recibir_data = new byte[500];
+
+            int array_cant = 0;
+
+            array_cant = conexion.Receive(recibir_data, 0, recibir_data.Length, 0);
+            Array.Resize(ref recibir_data, array_cant);
+
+            data = Encoding.Default.GetString(recibir_data);
+
+
+
+            if (fBusqueda.ShowDialog() == DialogResult.OK)
+            {
+                //string nombreJuego = fBusqueda.datos;
+                foreach (DataGridViewRow row in dataGridViewPrincipal.Rows)
+                {
+                    if (row.Cells[2].Value.ToString().Contains(data))
+                    {
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            cell.Selected = true;
                         }
                     }
                 }
@@ -199,14 +235,13 @@ namespace GHub
             steam_key = s_key;
             labelNombreUsuario.Text = user;
 
-
             panelFavoritos.Location = new Point(61, 114);
             panelFavoritos.Size = new Size(939, 537);
             panelJuegos.Location = new Point(61, 114);
             panelJuegos.Size = new Size(939, 537);
 
             panelJuegos.Visible = true;
-            panelFavoritos.Visible = false;
+            panelFavoritos.Visible = false;            
         }
 
         public async Task<string> getHttp()

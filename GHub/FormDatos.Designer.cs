@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDatos));
             this.dataGridViewPrincipal = new System.Windows.Forms.DataGridView();
+            this.fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -38,24 +39,26 @@
             this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.label1 = new System.Windows.Forms.Label();
-            this.picGuardar = new System.Windows.Forms.PictureBox();
-            this.picAccesoAjustes = new System.Windows.Forms.PictureBox();
-            this.picAccesoFavoritos = new System.Windows.Forms.PictureBox();
-            this.picAccesoJuegos = new System.Windows.Forms.PictureBox();
             this.panelJuegos = new System.Windows.Forms.Panel();
             this.labelNombreUsuario = new System.Windows.Forms.Label();
             this.panelFavoritos = new System.Windows.Forms.Panel();
             this.dataGridViewFavoritos = new System.Windows.Forms.DataGridView();
-            this.fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.picGuardar = new System.Windows.Forms.PictureBox();
+            this.picAccesoAjustes = new System.Windows.Forms.PictureBox();
+            this.picAccesoFavoritos = new System.Windows.Forms.PictureBox();
+            this.picAccesoJuegos = new System.Windows.Forms.PictureBox();
+            this.picBusqueda = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).BeginInit();
+            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panelJuegos.SuspendLayout();
+            this.panelFavoritos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGuardar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoAjustes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoFavoritos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoJuegos)).BeginInit();
-            this.panelJuegos.SuspendLayout();
-            this.panelFavoritos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBusqueda)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewPrincipal
@@ -81,6 +84,12 @@
             this.dataGridViewPrincipal.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPrincipal_ColumnHeaderMouseClick);
             this.dataGridViewPrincipal.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPrincipal_RowHeaderMouseClick);
             // 
+            // fav
+            // 
+            this.fav.HeaderText = "Favorito";
+            this.fav.Name = "fav";
+            this.fav.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -90,6 +99,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.picBusqueda);
             this.panel1.Location = new System.Drawing.Point(0, 64);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1000, 50);
@@ -153,50 +163,6 @@
             this.label1.Text = "TOTAL";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // picGuardar
-            // 
-            this.picGuardar.BackgroundImage = global::GHub.Properties.Resources.Save_Icon_icon_icons_com_69139;
-            this.picGuardar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picGuardar.Location = new System.Drawing.Point(9, 435);
-            this.picGuardar.Name = "picGuardar";
-            this.picGuardar.Size = new System.Drawing.Size(40, 40);
-            this.picGuardar.TabIndex = 4;
-            this.picGuardar.TabStop = false;
-            this.picGuardar.Click += new System.EventHandler(this.picGuardar_Click);
-            // 
-            // picAccesoAjustes
-            // 
-            this.picAccesoAjustes.BackgroundImage = global::GHub.Properties.Resources.code;
-            this.picAccesoAjustes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picAccesoAjustes.Location = new System.Drawing.Point(5, 481);
-            this.picAccesoAjustes.Name = "picAccesoAjustes";
-            this.picAccesoAjustes.Size = new System.Drawing.Size(50, 50);
-            this.picAccesoAjustes.TabIndex = 3;
-            this.picAccesoAjustes.TabStop = false;
-            this.picAccesoAjustes.Click += new System.EventHandler(this.picAccesoAjustes_Click);
-            // 
-            // picAccesoFavoritos
-            // 
-            this.picAccesoFavoritos.BackgroundImage = global::GHub.Properties.Resources.lazo;
-            this.picAccesoFavoritos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picAccesoFavoritos.Location = new System.Drawing.Point(9, 80);
-            this.picAccesoFavoritos.Name = "picAccesoFavoritos";
-            this.picAccesoFavoritos.Size = new System.Drawing.Size(40, 40);
-            this.picAccesoFavoritos.TabIndex = 1;
-            this.picAccesoFavoritos.TabStop = false;
-            this.picAccesoFavoritos.Click += new System.EventHandler(this.picAccesoFavoritos_Click);
-            // 
-            // picAccesoJuegos
-            // 
-            this.picAccesoJuegos.BackgroundImage = global::GHub.Properties.Resources.alien;
-            this.picAccesoJuegos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picAccesoJuegos.Location = new System.Drawing.Point(9, 16);
-            this.picAccesoJuegos.Name = "picAccesoJuegos";
-            this.picAccesoJuegos.Size = new System.Drawing.Size(40, 40);
-            this.picAccesoJuegos.TabIndex = 0;
-            this.picAccesoJuegos.TabStop = false;
-            this.picAccesoJuegos.Click += new System.EventHandler(this.picAccesoJuegos_Click);
-            // 
             // panelJuegos
             // 
             this.panelJuegos.Controls.Add(this.dataGridViewPrincipal);
@@ -243,11 +209,61 @@
             this.dataGridViewFavoritos.Size = new System.Drawing.Size(939, 537);
             this.dataGridViewFavoritos.TabIndex = 0;
             // 
-            // fav
+            // picGuardar
             // 
-            this.fav.HeaderText = "Favorito";
-            this.fav.Name = "fav";
-            this.fav.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.picGuardar.BackgroundImage = global::GHub.Properties.Resources.Save_Icon_icon_icons_com_69139;
+            this.picGuardar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picGuardar.Location = new System.Drawing.Point(9, 435);
+            this.picGuardar.Name = "picGuardar";
+            this.picGuardar.Size = new System.Drawing.Size(40, 40);
+            this.picGuardar.TabIndex = 4;
+            this.picGuardar.TabStop = false;
+            this.picGuardar.Click += new System.EventHandler(this.picGuardar_Click);
+            // 
+            // picAccesoAjustes
+            // 
+            this.picAccesoAjustes.BackgroundImage = global::GHub.Properties.Resources.code;
+            this.picAccesoAjustes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picAccesoAjustes.Location = new System.Drawing.Point(5, 481);
+            this.picAccesoAjustes.Name = "picAccesoAjustes";
+            this.picAccesoAjustes.Size = new System.Drawing.Size(50, 50);
+            this.picAccesoAjustes.TabIndex = 3;
+            this.picAccesoAjustes.TabStop = false;
+            this.picAccesoAjustes.Click += new System.EventHandler(this.picAccesoAjustes_Click);
+            // 
+            // picAccesoFavoritos
+            // 
+            this.picAccesoFavoritos.BackgroundImage = global::GHub.Properties.Resources.lazo;
+            this.picAccesoFavoritos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picAccesoFavoritos.Location = new System.Drawing.Point(9, 80);
+            this.picAccesoFavoritos.Name = "picAccesoFavoritos";
+            this.picAccesoFavoritos.Size = new System.Drawing.Size(40, 40);
+            this.picAccesoFavoritos.TabIndex = 1;
+            this.picAccesoFavoritos.TabStop = false;
+            this.picAccesoFavoritos.Click += new System.EventHandler(this.picAccesoFavoritos_Click);
+            // 
+            // picAccesoJuegos
+            // 
+            this.picAccesoJuegos.BackgroundImage = global::GHub.Properties.Resources.alien;
+            this.picAccesoJuegos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picAccesoJuegos.Location = new System.Drawing.Point(9, 16);
+            this.picAccesoJuegos.Name = "picAccesoJuegos";
+            this.picAccesoJuegos.Size = new System.Drawing.Size(40, 40);
+            this.picAccesoJuegos.TabIndex = 0;
+            this.picAccesoJuegos.TabStop = false;
+            this.picAccesoJuegos.Click += new System.EventHandler(this.picAccesoJuegos_Click);
+            // 
+            // picBusqueda
+            // 
+            this.picBusqueda.BackColor = System.Drawing.Color.Transparent;
+            this.picBusqueda.BackgroundImage = global::GHub.Properties.Resources.buscar;
+            this.picBusqueda.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picBusqueda.Location = new System.Drawing.Point(948, 7);
+            this.picBusqueda.Name = "picBusqueda";
+            this.picBusqueda.Size = new System.Drawing.Size(40, 40);
+            this.picBusqueda.TabIndex = 0;
+            this.picBusqueda.TabStop = false;
+            this.picBusqueda.Click += new System.EventHandler(this.picBusqueda_Click);
             // 
             // FormDatos
             // 
@@ -259,6 +275,7 @@
             this.Controls.Add(this.panelJuegos);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormDatos";
             this.Sizable = false;
@@ -266,14 +283,16 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormDatos_FormClosed);
             this.Load += new System.EventHandler(this.FormDatos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panelJuegos.ResumeLayout(false);
+            this.panelFavoritos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGuardar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoAjustes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoFavoritos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoJuegos)).EndInit();
-            this.panelJuegos.ResumeLayout(false);
-            this.panelFavoritos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBusqueda)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -297,5 +316,6 @@
         private System.Windows.Forms.Panel panelFavoritos;
         private System.Windows.Forms.DataGridView dataGridViewFavoritos;
         private System.Windows.Forms.DataGridViewCheckBoxColumn fav;
+        private System.Windows.Forms.PictureBox picBusqueda;
     }
 }
