@@ -16,12 +16,13 @@ using System.IO;
 using Json.Net;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Net.Sockets;
 
 namespace GHub
 {
     public partial class FormDatos : MaterialSkin.Controls.MaterialForm
     {
-        public string steam_key, steam_id, url;
+        public string steam_key, steam_id, url, nombrejuego;
         public int user_id;
         public List<Game> juegosFav;
         public bool borrado;
@@ -77,7 +78,7 @@ namespace GHub
                 for (int i = 0; i < dataGridViewPrincipal.Rows.Count - 1; i++)
                 {
 
-                    if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null && dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString()=="True")
+                    if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null && dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString() == "True")
                     {
                         Game game = new Game();
                         game.appid = Convert.ToInt32(dataGridViewPrincipal.Rows[i].Cells[1].Value);
@@ -127,10 +128,11 @@ namespace GHub
         {
             panelJuegos.Visible = false;
             panelFavoritos.Visible = true;
+            picBuscar.Visible = false;
             string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
             using (SqlConnection conexion = new SqlConnection(cnn))
             {
-                SqlCommand comando = new SqlCommand("select distinct user_id,appid,name, playtime_forever, img_logo_url, playtime_windows_forever,playtime_2weeks from t_juegosFavoritos where user_id=" + user_id, conexion);
+                SqlCommand comando = new SqlCommand("select distinct appid,name, playtime_forever, img_logo_url, playtime_windows_forever,playtime_2weeks from t_juegosFavoritos where user_id=" + user_id, conexion);
                 SqlDataAdapter adaptador = new SqlDataAdapter();
                 adaptador.SelectCommand = comando;
                 DataTable tabla = new DataTable();
@@ -143,6 +145,7 @@ namespace GHub
         {
             panelJuegos.Visible = true;
             panelFavoritos.Visible = false;
+            picBuscar.Visible = true;
         }
 
         private void picAccesoAjustes_Click(object sender, EventArgs e)
@@ -179,17 +182,56 @@ namespace GHub
                                 comando.ExecuteNonQuery();
                                 conexion.Close();
                                 MessageBox.Show("eliminado");
-
-
-
-                                //SqlCommand comando = new SqlCommand("insert into Arope(REGION,DEPENDENCIA,OPERACION,SIGLAUNIDAD,SECCION,DEPARTAMENTO,MUNICIPIO,[OF],SUB,PT,TOTALFD,GR,NOMBRESYAPELLIDOS,CEDULA,CARGO,UBICACION,MISION,ACTOADMIN,LATITUD,LONGITUD) values (@region,@dependencia,@operacion,@siglaUnidad,@seccion,@departamento,@municipio,@of,@sub,@pt,@totalFd,@gr,@nombresyapellidos,@cedula,@cargo,@ubicacion,@mision,@actoAdmin,@latitud,@longitud)", conec);
-
                             }
                         }
                     }
                 }
             }
         }
+
+        private void picBuscar_Click(object sender, EventArgs e)
+        {
+            FormBusqueda busqueda = new FormBusqueda();
+            
+            if (busqueda.ShowDialog() == DialogResult.OK)
+            {
+                dataGridViewPrincipal.ClearSelection();
+                nombrejuego = busqueda.datos;
+                foreach (DataGridViewRow row in dataGridViewPrincipal.Rows)
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (row.Cells[2].Value.ToString().Contains(nombrejuego))
+                        {                            
+                            cell.Selected = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+         
+                                //SqlCommand comando = new SqlCommand("insert into Arope(REGION,DEPENDENCIA,OPERACION,SIGLAUNIDAD,SECCION,DEPARTAMENTO,MUNICIPIO,[OF],SUB,PT,TOTALFD,GR,NOMBRESYAPELLIDOS,CEDULA,CARGO,UBICACION,MISION,ACTOADMIN,LATITUD,LONGITUD) values (@region,@depende
+                                Socket listen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                                Socket socket;
+                                IPEndPoint connect = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8910);
+                                listen.Bind(connect);
+                                listen.Listen(1);
+                                socket = listen.Accept();
+
+                                byte[] recibir_data = new byte[100];
+                                string data = "";
+                                int array_cant = 0;
+
+                                if (fBusqueda.ShowDialog() == DialogResult.OK)
+                                {
+                                    array_cant = socket.Receive(recibir_data, 0, recibir_data.Length, 0);
+                                    Array.Resize(ref recibir_data, array_cant);
+
+                                    data = Encoding.Default.GetString(recibir_data);
+                                }
+             */
 
         public FormDatos(int id, string s_key, string s_id, string user)
         {
