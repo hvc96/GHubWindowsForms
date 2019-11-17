@@ -72,12 +72,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormBusqueda.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormBusqueda.Designer.cs">
-      <DependentUpon>FormBusqueda.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,9 +86,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormBusqueda.resx">
-      <DependentUpon>FormBusqueda.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormDatos.resx">
       <DependentUpon>FormDatos.cs</DependentUpon>
     </EmbeddedResource>
@@ -175,9 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Save_Icon_icon-icons.com_69139.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\buscar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
