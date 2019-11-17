@@ -17,15 +17,19 @@ using Json.Net;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Net.Sockets;
+using SimpleTCP;
 
 namespace GHub
 {
     public partial class FormDatos : MaterialSkin.Controls.MaterialForm
     {
-        public string steam_key, steam_id, url, nombrejuego;
-        public int user_id;
+        public string steam_key, steam_id, url, nombrejuego, ip = "127.0.0.1";
+        public int user_id, totalJuegos, puerto = 15002, cant;
         public List<Game> juegosFav;
-        public bool borrado;
+        public bool borrado, flag;
+
+
+        SimpleTcpServer server;
 
         private async void FormDatos_Load(object sender, EventArgs e)
         {
@@ -36,7 +40,7 @@ namespace GHub
 
             List<Game> games = response.games;
             source.DataSource = games;
-
+            totalJuegos = response.game_count;
             labelTotalJuegos.Text = response.game_count.ToString();
 
             dataGridViewPrincipal.DataSource = source;
@@ -129,6 +133,7 @@ namespace GHub
             panelJuegos.Visible = false;
             panelFavoritos.Visible = true;
             picBuscar.Visible = false;
+            panelContadorJuegos.Visible = false;
             string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
             using (SqlConnection conexion = new SqlConnection(cnn))
             {
@@ -146,6 +151,8 @@ namespace GHub
             panelJuegos.Visible = true;
             panelFavoritos.Visible = false;
             picBuscar.Visible = true;
+            panelContadorJuegos.Visible = true;
+            labelTotalJuegos.Text = totalJuegos + "";
         }
 
         private void picAccesoAjustes_Click(object sender, EventArgs e)
@@ -176,7 +183,7 @@ namespace GHub
                             {
                                 conexion.Open();
                                 SqlCommand comando = new SqlCommand("delete from t_juegosFavoritos where @appid && @user_id", conexion);
-                                //SqlCommand comando2 = new SqlCommand("select * from t_juegosFavoritos where user_id=" + user_id, conexion);
+
                                 comando.Parameters.AddWithValue("@appid", dataGridViewPrincipal.Rows[i].Cells[2]);
                                 comando.Parameters.AddWithValue("@user_id", user_id);
                                 comando.ExecuteNonQuery();
@@ -189,10 +196,70 @@ namespace GHub
             }
         }
 
+        private void picboxServer_Click(object sender, EventArgs e)
+        {
+            panelServidor.Visible = true;
+            picboxServer.Enabled = false;
+            picboxApagarServer.Enabled = true;
+            textboxInfoServer.Text += "Servidor iniciado! \r\n";
+
+            System.Net.IPAddress ipadress = System.Net.IPAddress.Parse(ip);
+            server.Start(ipadress, puerto);
+        }
+
+        private void picboxApagarServer_Click(object sender, EventArgs e)
+        {
+            if (server.IsStarted)
+            {
+                picboxServer.Enabled = true;
+                picboxApagarServer.Enabled = false;
+                panelServidor.Visible = false;
+                textboxInfoServer.Text = "";
+                server.Stop();
+            }
+        }
+
+        private void Server_DataReceived(object sender, SimpleTCP.Message e)
+        {
+            textboxInfoServer.Invoke((MethodInvoker)delegate ()
+            {
+                flag = false;
+                cant = 0;
+                textboxInfoServer.Text += e.MessageString.Substring(0, e.MessageString.Length - 1) + "\r\n";
+
+                foreach (DataGridViewRow row in dataGridViewPrincipal.Rows)
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (row.Cells[2].Value.ToString().Contains(e.MessageString.Substring(0, e.MessageString.Length - 1)))
+                        {
+                            flag = true;
+                            cant++;
+                        }
+                    }
+                }
+                if (!flag)
+                {
+                    e.ReplyLine(string.Format("No, en su biblioteca de steam no consta el juego \"{0}\"\r\n", e.MessageString.Substring(0, e.MessageString.Length - 1)));
+                }
+                else
+                {
+                    if (cant / dataGridViewPrincipal.Columns.Count > 1)
+                    {
+                        e.ReplyLine(string.Format("Tiene {1} juegos con \"{0}\" en el nombre\r\n", e.MessageString.Substring(0, e.MessageString.Length - 1), cant / dataGridViewPrincipal.Columns.Count));
+                    }
+                    else
+                    {
+                        e.ReplyLine(string.Format("Si, tiene el juego \"{0}\" en su biblioteca de steam\r\n", e.MessageString.Substring(0, e.MessageString.Length - 1)));
+                    }
+                }
+            });
+        }
+
         private void picBuscar_Click(object sender, EventArgs e)
         {
             FormBusqueda busqueda = new FormBusqueda();
-            
+
             if (busqueda.ShowDialog() == DialogResult.OK)
             {
                 dataGridViewPrincipal.ClearSelection();
@@ -202,36 +269,13 @@ namespace GHub
                     foreach (DataGridViewCell cell in row.Cells)
                     {
                         if (row.Cells[2].Value.ToString().Contains(nombrejuego))
-                        {                            
+                        {
                             cell.Selected = true;
                         }
                     }
                 }
             }
         }
-
-        /*
-         
-                                //SqlCommand comando = new SqlCommand("insert into Arope(REGION,DEPENDENCIA,OPERACION,SIGLAUNIDAD,SECCION,DEPARTAMENTO,MUNICIPIO,[OF],SUB,PT,TOTALFD,GR,NOMBRESYAPELLIDOS,CEDULA,CARGO,UBICACION,MISION,ACTOADMIN,LATITUD,LONGITUD) values (@region,@depende
-                                Socket listen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                                Socket socket;
-                                IPEndPoint connect = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8910);
-                                listen.Bind(connect);
-                                listen.Listen(1);
-                                socket = listen.Accept();
-
-                                byte[] recibir_data = new byte[100];
-                                string data = "";
-                                int array_cant = 0;
-
-                                if (fBusqueda.ShowDialog() == DialogResult.OK)
-                                {
-                                    array_cant = socket.Receive(recibir_data, 0, recibir_data.Length, 0);
-                                    Array.Resize(ref recibir_data, array_cant);
-
-                                    data = Encoding.Default.GetString(recibir_data);
-                                }
-             */
 
         public FormDatos(int id, string s_key, string s_id, string user)
         {
@@ -249,7 +293,17 @@ namespace GHub
 
             panelJuegos.Visible = true;
             panelFavoritos.Visible = false;
+
+            server = new SimpleTcpServer();
+            server.StringEncoder = Encoding.UTF8;
+            server.Delimiter = 0x13;
+            server.DataReceived += Server_DataReceived;
+
         }
+
+
+
+
 
         public async Task<string> getHttp()
         {

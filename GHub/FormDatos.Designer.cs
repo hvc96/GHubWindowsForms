@@ -35,29 +35,40 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.labelTotalJuegos = new System.Windows.Forms.Label();
-            this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
-            this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
+            this.panelContadorJuegos = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelTotalJuegos = new System.Windows.Forms.Label();
+            this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
+            this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
             this.panelJuegos = new System.Windows.Forms.Panel();
             this.labelNombreUsuario = new System.Windows.Forms.Label();
             this.panelFavoritos = new System.Windows.Forms.Panel();
             this.dataGridViewFavoritos = new System.Windows.Forms.DataGridView();
+            this.textboxInfoServer = new System.Windows.Forms.TextBox();
+            this.panelServidor = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.picGuardar = new System.Windows.Forms.PictureBox();
             this.picAccesoAjustes = new System.Windows.Forms.PictureBox();
             this.picAccesoFavoritos = new System.Windows.Forms.PictureBox();
             this.picAccesoJuegos = new System.Windows.Forms.PictureBox();
+            this.picboxApagarServer = new System.Windows.Forms.PictureBox();
+            this.picboxServer = new System.Windows.Forms.PictureBox();
             this.picBuscar = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panelContadorJuegos.SuspendLayout();
             this.panelJuegos.SuspendLayout();
             this.panelFavoritos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).BeginInit();
+            this.panelServidor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picGuardar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoAjustes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoFavoritos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoJuegos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxApagarServer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxServer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBuscar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,6 +110,9 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.picboxApagarServer);
+            this.panel1.Controls.Add(this.picboxServer);
             this.panel1.Controls.Add(this.picBuscar);
             this.panel1.Location = new System.Drawing.Point(0, 64);
             this.panel1.Name = "panel1";
@@ -107,10 +121,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.labelTotalJuegos);
-            this.panel2.Controls.Add(this.materialDivider2);
-            this.panel2.Controls.Add(this.materialDivider1);
-            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.panelContadorJuegos);
             this.panel2.Controls.Add(this.picGuardar);
             this.panel2.Controls.Add(this.picAccesoAjustes);
             this.panel2.Controls.Add(this.picAccesoFavoritos);
@@ -120,55 +131,66 @@
             this.panel2.Size = new System.Drawing.Size(61, 537);
             this.panel2.TabIndex = 3;
             // 
-            // labelTotalJuegos
+            // panelContadorJuegos
             // 
-            this.labelTotalJuegos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotalJuegos.Location = new System.Drawing.Point(4, 326);
-            this.labelTotalJuegos.Name = "labelTotalJuegos";
-            this.labelTotalJuegos.Size = new System.Drawing.Size(51, 33);
-            this.labelTotalJuegos.TabIndex = 8;
-            this.labelTotalJuegos.Text = "0";
-            this.labelTotalJuegos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // materialDivider2
-            // 
-            this.materialDivider2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialDivider2.Depth = 0;
-            this.materialDivider2.Location = new System.Drawing.Point(7, 370);
-            this.materialDivider2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialDivider2.Name = "materialDivider2";
-            this.materialDivider2.Size = new System.Drawing.Size(45, 2);
-            this.materialDivider2.TabIndex = 7;
-            this.materialDivider2.Text = "materialDivider2";
-            // 
-            // materialDivider1
-            // 
-            this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialDivider1.Depth = 0;
-            this.materialDivider1.Location = new System.Drawing.Point(7, 287);
-            this.materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialDivider1.Name = "materialDivider1";
-            this.materialDivider1.Size = new System.Drawing.Size(45, 2);
-            this.materialDivider1.TabIndex = 6;
-            this.materialDivider1.Text = "materialDivider1";
+            this.panelContadorJuegos.Controls.Add(this.label1);
+            this.panelContadorJuegos.Controls.Add(this.labelTotalJuegos);
+            this.panelContadorJuegos.Controls.Add(this.materialDivider1);
+            this.panelContadorJuegos.Controls.Add(this.materialDivider2);
+            this.panelContadorJuegos.Location = new System.Drawing.Point(0, 277);
+            this.panelContadorJuegos.Name = "panelContadorJuegos";
+            this.panelContadorJuegos.Size = new System.Drawing.Size(61, 100);
+            this.panelContadorJuegos.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(6, 292);
+            this.label1.Location = new System.Drawing.Point(3, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 18);
             this.label1.TabIndex = 5;
             this.label1.Text = "TOTAL";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // labelTotalJuegos
+            // 
+            this.labelTotalJuegos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTotalJuegos.Location = new System.Drawing.Point(3, 46);
+            this.labelTotalJuegos.Name = "labelTotalJuegos";
+            this.labelTotalJuegos.Size = new System.Drawing.Size(51, 33);
+            this.labelTotalJuegos.TabIndex = 8;
+            this.labelTotalJuegos.Text = "0";
+            this.labelTotalJuegos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // materialDivider1
+            // 
+            this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialDivider1.Depth = 0;
+            this.materialDivider1.Location = new System.Drawing.Point(7, 15);
+            this.materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialDivider1.Name = "materialDivider1";
+            this.materialDivider1.Size = new System.Drawing.Size(45, 2);
+            this.materialDivider1.TabIndex = 6;
+            this.materialDivider1.Text = "z";
+            // 
+            // materialDivider2
+            // 
+            this.materialDivider2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialDivider2.Depth = 0;
+            this.materialDivider2.Location = new System.Drawing.Point(6, 82);
+            this.materialDivider2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialDivider2.Name = "materialDivider2";
+            this.materialDivider2.Size = new System.Drawing.Size(45, 2);
+            this.materialDivider2.TabIndex = 7;
+            this.materialDivider2.Text = "materialDivider2";
+            // 
             // panelJuegos
             // 
             this.panelJuegos.Controls.Add(this.dataGridViewPrincipal);
-            this.panelJuegos.Location = new System.Drawing.Point(61, 114);
+            this.panelJuegos.Location = new System.Drawing.Point(816, 397);
             this.panelJuegos.Name = "panelJuegos";
-            this.panelJuegos.Size = new System.Drawing.Size(400, 537);
+            this.panelJuegos.Size = new System.Drawing.Size(181, 160);
             this.panelJuegos.TabIndex = 4;
             // 
             // labelNombreUsuario
@@ -186,9 +208,9 @@
             // panelFavoritos
             // 
             this.panelFavoritos.Controls.Add(this.dataGridViewFavoritos);
-            this.panelFavoritos.Location = new System.Drawing.Point(467, 120);
+            this.panelFavoritos.Location = new System.Drawing.Point(820, 563);
             this.panelFavoritos.Name = "panelFavoritos";
-            this.panelFavoritos.Size = new System.Drawing.Size(939, 537);
+            this.panelFavoritos.Size = new System.Drawing.Size(177, 82);
             this.panelFavoritos.TabIndex = 5;
             // 
             // dataGridViewFavoritos
@@ -206,14 +228,54 @@
             this.dataGridViewFavoritos.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewFavoritos.Name = "dataGridViewFavoritos";
             this.dataGridViewFavoritos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewFavoritos.Size = new System.Drawing.Size(939, 537);
+            this.dataGridViewFavoritos.Size = new System.Drawing.Size(177, 82);
             this.dataGridViewFavoritos.TabIndex = 0;
+            // 
+            // textboxInfoServer
+            // 
+            this.textboxInfoServer.Dock = System.Windows.Forms.DockStyle.Right;
+            this.textboxInfoServer.Location = new System.Drawing.Point(38, 0);
+            this.textboxInfoServer.Multiline = true;
+            this.textboxInfoServer.Name = "textboxInfoServer";
+            this.textboxInfoServer.ReadOnly = true;
+            this.textboxInfoServer.Size = new System.Drawing.Size(367, 287);
+            this.textboxInfoServer.TabIndex = 3;
+            // 
+            // panelServidor
+            // 
+            this.panelServidor.Controls.Add(this.label2);
+            this.panelServidor.Controls.Add(this.textboxInfoServer);
+            this.panelServidor.Location = new System.Drawing.Point(595, 114);
+            this.panelServidor.Name = "panelServidor";
+            this.panelServidor.Size = new System.Drawing.Size(405, 287);
+            this.panelServidor.TabIndex = 3;
+            this.panelServidor.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(20, 284);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "SERVIDOR";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(812, 7);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 40);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Server →";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // picGuardar
             // 
             this.picGuardar.BackgroundImage = global::GHub.Properties.Resources.Save_Icon_icon_icons_com_69139;
             this.picGuardar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picGuardar.Location = new System.Drawing.Point(9, 435);
+            this.picGuardar.Location = new System.Drawing.Point(12, 435);
             this.picGuardar.Name = "picGuardar";
             this.picGuardar.Size = new System.Drawing.Size(40, 40);
             this.picGuardar.TabIndex = 4;
@@ -253,13 +315,40 @@
             this.picAccesoJuegos.TabStop = false;
             this.picAccesoJuegos.Click += new System.EventHandler(this.picAccesoJuegos_Click);
             // 
+            // picboxApagarServer
+            // 
+            this.picboxApagarServer.BackColor = System.Drawing.Color.Transparent;
+            this.picboxApagarServer.BackgroundImage = global::GHub.Properties.Resources.apagar;
+            this.picboxApagarServer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picboxApagarServer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picboxApagarServer.Enabled = false;
+            this.picboxApagarServer.Location = new System.Drawing.Point(936, 7);
+            this.picboxApagarServer.Name = "picboxApagarServer";
+            this.picboxApagarServer.Size = new System.Drawing.Size(40, 40);
+            this.picboxApagarServer.TabIndex = 2;
+            this.picboxApagarServer.TabStop = false;
+            this.picboxApagarServer.Click += new System.EventHandler(this.picboxApagarServer_Click);
+            // 
+            // picboxServer
+            // 
+            this.picboxServer.BackColor = System.Drawing.Color.Transparent;
+            this.picboxServer.BackgroundImage = global::GHub.Properties.Resources.encender;
+            this.picboxServer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picboxServer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picboxServer.Location = new System.Drawing.Point(890, 7);
+            this.picboxServer.Name = "picboxServer";
+            this.picboxServer.Size = new System.Drawing.Size(40, 40);
+            this.picboxServer.TabIndex = 1;
+            this.picboxServer.TabStop = false;
+            this.picboxServer.Click += new System.EventHandler(this.picboxServer_Click);
+            // 
             // picBuscar
             // 
             this.picBuscar.BackColor = System.Drawing.Color.Transparent;
             this.picBuscar.BackgroundImage = global::GHub.Properties.Resources.buscar;
             this.picBuscar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.picBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picBuscar.Location = new System.Drawing.Point(950, 5);
+            this.picBuscar.Location = new System.Drawing.Point(72, 7);
             this.picBuscar.Name = "picBuscar";
             this.picBuscar.Size = new System.Drawing.Size(40, 40);
             this.picBuscar.TabIndex = 0;
@@ -271,6 +360,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 650);
+            this.Controls.Add(this.panelServidor);
             this.Controls.Add(this.panelFavoritos);
             this.Controls.Add(this.labelNombreUsuario);
             this.Controls.Add(this.panelJuegos);
@@ -286,13 +376,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panelContadorJuegos.ResumeLayout(false);
             this.panelJuegos.ResumeLayout(false);
             this.panelFavoritos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).EndInit();
+            this.panelServidor.ResumeLayout(false);
+            this.panelServidor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picGuardar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoAjustes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoFavoritos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoJuegos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxApagarServer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxServer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBuscar)).EndInit();
             this.ResumeLayout(false);
 
@@ -318,5 +413,12 @@
         private System.Windows.Forms.DataGridView dataGridViewFavoritos;
         private System.Windows.Forms.DataGridViewCheckBoxColumn fav;
         private System.Windows.Forms.PictureBox picBuscar;
+        private System.Windows.Forms.Panel panelContadorJuegos;
+        private System.Windows.Forms.PictureBox picboxServer;
+        private System.Windows.Forms.PictureBox picboxApagarServer;
+        private System.Windows.Forms.TextBox textboxInfoServer;
+        private System.Windows.Forms.Panel panelServidor;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }

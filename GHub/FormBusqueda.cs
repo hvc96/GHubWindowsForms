@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleTCP;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,8 +21,8 @@ namespace GHub
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            datos=txtboxBuscar.Text.Trim();
+            datos = txtboxBuscar.Text.Trim();
             this.Hide();
-        }
+        }    
     }
 }

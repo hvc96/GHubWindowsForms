@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 namespace GHub
 {
@@ -18,9 +19,11 @@ namespace GHub
     {
         public string errorCuenta = "Ha ocurrido un error creando la cuenta";
         public string okCuenta = "¡ Cuenta creada con exito !";
+        public string errorEnvioCorreo = "Ha ocurrido un error enviando el correo";
         public string errorRecuperarPass = "No existe ninguna cuenta con ese correo asociado";
         public string okRecuperarPass = "Se ha enviado un correo con tus credenciales";
 
+        string hash = "Ghub_HVillar";
         public bool ver1 = false, ver2 = false;
 
         public Color colorOk = Color.FromArgb(167, 231, 183);
@@ -133,9 +136,9 @@ namespace GHub
                 string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
                 using (SqlConnection conexion = new SqlConnection(cnn))
                 {
-                    string emailParametro = "", usuarioParametro = "", passwordParametro = "";
+                    string usuarioParametro = "", passwordParametro = "", emailParametro = "";
                     conexion.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM t_usuarios WHERE email='" + emailParametro + "'", conexion))
+                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM t_usuarios WHERE email='" + textboxEnviarCredenciales.Text.Trim() + "'", conexion))
                     {
                         SqlDataReader dr = cmd.ExecuteReader();
 
@@ -151,37 +154,47 @@ namespace GHub
                             string msgCuerpo = "<html><p>Los credenciales con los que se ha registrado el usuario de email: "
                                 + emailParametro + "</p><p>Son los siguientes.</p><table style='height: 60px; width: 418px;' cellpadding='12'><tbody><tr style='height: 23px;'><td style='width: 260px; height: 23px;'>Nombre de usuario:</td><td style='width: 157px; height: 23px;'>"
                                 + usuarioParametro + "</td></tr><tr style='height: 9px;'><td style='width: 260px; height: 9px;'>Contrase&ntilde;a:</td><td style='width: 157px; height: 9px;'>"
-                                + passwordParametro + "</td></tr></tbody></table></html>";
+                                + decrypt(passwordParametro) + "</td></tr></tbody></table></html>";
+
+                            MailMessage msg = new MailMessage();
+                            msg.To.Add(emailParametro);
+                            msg.Subject = "Te has olvidado de tu contraseña?";
+                            msg.SubjectEncoding = System.Text.Encoding.UTF8;
+                            msg.Body = msgCuerpo;
+                            msg.BodyEncoding = System.Text.Encoding.UTF8;
+                            msg.IsBodyHtml = true;
+                            msg.From = new System.Net.Mail.MailAddress("ghub.dev@gmail.com");
+
+                            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+                            client.UseDefaultCredentials = false;
+                            client.Credentials = new System.Net.NetworkCredential("ghub.dev@gmail.com", "qw3rty123456");
+                            client.Port = 587;
+                            client.EnableSsl = true;
+                            client.Host = "smtp.gmail.com";
 
                             try
                             {
-
-                                MailMessage mail = new MailMessage("ghub.development@gmail.com", emailParametro, "Te has olvidado de tu contraseña?", msgCuerpo);
-                                SmtpClient client = new SmtpClient("smtp.gmail.com");
-                                client.Port = 587;
-                                client.Credentials = new System.Net.NetworkCredential("ghub.development@gmail.com", "qw3rty123456");
-                                client.EnableSsl = true;
-                                client.Send(mail);
+                                client.Send(msg);
 
                                 //Mensaje enviado , mostrar panel
                                 labelErrorOkInfo.Text = okRecuperarPass;
                                 imagenErrorOk.BackgroundImage = Properties.Resources.ok;
                                 panelPopupInfo.BackColor = colorOk;
 
-
                             }
-                            catch (Exception error)
+                            catch (Exception err)
                             {
-                                MessageBox.Show("Unexpected Error: " + error);
+                                MessageBox.Show("Unexpected Error: " + err.Message);
+                                labelErrorOkInfo.Text = errorEnvioCorreo;
+                                imagenErrorOk.BackgroundImage = Properties.Resources.error;
+                                panelPopupInfo.BackColor = colorError;
                             }
-
                         }
                         else
                         {
                             labelErrorOkInfo.Text = errorRecuperarPass;
                             imagenErrorOk.BackgroundImage = Properties.Resources.error;
                             panelPopupInfo.BackColor = colorError;
-
                         }
                     }
                 }
@@ -213,11 +226,12 @@ namespace GHub
         public void iniciarSesion()
         {
 
+
             string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
             using (SqlConnection conexion = new SqlConnection(cnn))
             {
                 conexion.Open();
-                using (SqlCommand cmd = new SqlCommand("SELECT id, usuario, password, steam_key, steam_id FROM t_usuarios WHERE usuario='" + textboxUser.Text + "' AND password='" + textboxPass.Text + "'", conexion))
+                using (SqlCommand cmd = new SqlCommand("SELECT id, usuario, password, steam_key, steam_id FROM t_usuarios WHERE usuario='" + textboxUser.Text + "' AND password='" + encrypt(textboxPass.Text) + "'", conexion))
                 {
                     SqlDataReader dr = cmd.ExecuteReader();
                     while (dr.Read()) //Si devuelve alguna fila, tiene datos
@@ -228,8 +242,9 @@ namespace GHub
                         string steam_key = dr.GetString(3);
                         string steam_id = dr.GetString(4);
 
-                        if (usuario == textboxUser.Text.Trim() && password == textboxPass.Text.Trim())
+                        if (usuario == textboxUser.Text.Trim() && password == encrypt(textboxPass.Text.Trim()))
                         {
+
                             FormDatos formSteamData = new FormDatos(id, steam_key, steam_id, usuario);
                             this.Hide();
                             formSteamData.ShowDialog(this);
@@ -256,11 +271,10 @@ namespace GHub
                     using (SqlConnection conexion = new SqlConnection(cnn))
                     {
                         conexion.Open();
-                        Console.Error.WriteLine("Entre -----------");
                         SqlCommand sql = new SqlCommand("CrearUsuario", conexion);
                         sql.CommandType = CommandType.StoredProcedure;
                         sql.Parameters.AddWithValue("@usuario", txtboxNuevoUsuario.Text.Trim());
-                        sql.Parameters.AddWithValue("@password", txtboxNuevaPass.Text.Trim());
+                        sql.Parameters.AddWithValue("@password", encrypt(txtboxNuevaPass.Text.Trim()));  // -------------
                         sql.Parameters.AddWithValue("@email", txtboxNuevoEmail.Text.Trim());
                         sql.Parameters.AddWithValue("@steam_key", txtboxNuevaClave.Text.Trim());
                         sql.Parameters.AddWithValue("@steam_id", txtboxNuevoSteamID.Text.Trim());
@@ -316,5 +330,38 @@ namespace GHub
                 txtboxNuevaPass.UseSystemPasswordChar = true;
             }
         }
+
+        private string encrypt(string password)
+        {
+            byte[] data = UTF8Encoding.UTF8.GetBytes(password);
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                using (TripleDESCryptoServiceProvider tripleDES = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                {
+                    ICryptoTransform transform = tripleDES.CreateEncryptor();
+                    byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
+                    string passwordEncrypt = Convert.ToBase64String(results, 0, results.Length);
+                    return passwordEncrypt;
+                }
+            }
+        }
+
+        private string decrypt(string password)
+        {
+            byte[] data = Convert.FromBase64String(password);
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                using (TripleDESCryptoServiceProvider tripleDES = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                {
+                    ICryptoTransform transform = tripleDES.CreateDecryptor();
+                    byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
+                    string passwordDecrypt = UTF8Encoding.UTF8.GetString(results);
+                    return passwordDecrypt;
+                }
+            }
+        }
+
     }
 }
