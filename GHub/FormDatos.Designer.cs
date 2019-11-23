@@ -34,12 +34,20 @@
             this.fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.picboxApagarServer = new System.Windows.Forms.PictureBox();
+            this.picboxServer = new System.Windows.Forms.PictureBox();
+            this.picBuscar = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panelContadorJuegos = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.labelTotalJuegos = new System.Windows.Forms.Label();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
+            this.picGuardar = new System.Windows.Forms.PictureBox();
+            this.picAccesoAjustes = new System.Windows.Forms.PictureBox();
+            this.picAccesoFavoritos = new System.Windows.Forms.PictureBox();
+            this.picAccesoJuegos = new System.Windows.Forms.PictureBox();
             this.panelJuegos = new System.Windows.Forms.Panel();
             this.labelNombreUsuario = new System.Windows.Forms.Label();
             this.panelFavoritos = new System.Windows.Forms.Panel();
@@ -47,29 +55,21 @@
             this.textboxInfoServer = new System.Windows.Forms.TextBox();
             this.panelServidor = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.picGuardar = new System.Windows.Forms.PictureBox();
-            this.picAccesoAjustes = new System.Windows.Forms.PictureBox();
-            this.picAccesoFavoritos = new System.Windows.Forms.PictureBox();
-            this.picAccesoJuegos = new System.Windows.Forms.PictureBox();
-            this.picboxApagarServer = new System.Windows.Forms.PictureBox();
-            this.picboxServer = new System.Windows.Forms.PictureBox();
-            this.picBuscar = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxApagarServer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxServer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBuscar)).BeginInit();
             this.panel2.SuspendLayout();
             this.panelContadorJuegos.SuspendLayout();
-            this.panelJuegos.SuspendLayout();
-            this.panelFavoritos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).BeginInit();
-            this.panelServidor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picGuardar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoAjustes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoFavoritos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAccesoJuegos)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxApagarServer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxServer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBuscar)).BeginInit();
+            this.panelJuegos.SuspendLayout();
+            this.panelFavoritos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).BeginInit();
+            this.panelServidor.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewPrincipal
@@ -119,10 +119,59 @@
             this.panel1.Size = new System.Drawing.Size(1000, 50);
             this.panel1.TabIndex = 2;
             // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(812, 7);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 40);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Server →";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            // 
+            // picboxApagarServer
+            // 
+            this.picboxApagarServer.BackColor = System.Drawing.Color.Transparent;
+            this.picboxApagarServer.BackgroundImage = global::GHub.Properties.Resources.apagar;
+            this.picboxApagarServer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picboxApagarServer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picboxApagarServer.Enabled = false;
+            this.picboxApagarServer.Location = new System.Drawing.Point(936, 7);
+            this.picboxApagarServer.Name = "picboxApagarServer";
+            this.picboxApagarServer.Size = new System.Drawing.Size(40, 40);
+            this.picboxApagarServer.TabIndex = 2;
+            this.picboxApagarServer.TabStop = false;
+            this.picboxApagarServer.Click += new System.EventHandler(this.picboxApagarServer_Click);
+            // 
+            // picboxServer
+            // 
+            this.picboxServer.BackColor = System.Drawing.Color.Transparent;
+            this.picboxServer.BackgroundImage = global::GHub.Properties.Resources.encender;
+            this.picboxServer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picboxServer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picboxServer.Location = new System.Drawing.Point(890, 7);
+            this.picboxServer.Name = "picboxServer";
+            this.picboxServer.Size = new System.Drawing.Size(40, 40);
+            this.picboxServer.TabIndex = 1;
+            this.picboxServer.TabStop = false;
+            this.picboxServer.Click += new System.EventHandler(this.picboxServer_Click);
+            // 
+            // picBuscar
+            // 
+            this.picBuscar.BackColor = System.Drawing.Color.Transparent;
+            this.picBuscar.BackgroundImage = global::GHub.Properties.Resources.buscar;
+            this.picBuscar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBuscar.Location = new System.Drawing.Point(72, 7);
+            this.picBuscar.Name = "picBuscar";
+            this.picBuscar.Size = new System.Drawing.Size(40, 40);
+            this.picBuscar.TabIndex = 0;
+            this.picBuscar.TabStop = false;
+            this.picBuscar.Click += new System.EventHandler(this.picBuscar_Click);
+            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.panelContadorJuegos);
-            this.panel2.Controls.Add(this.picGuardar);
             this.panel2.Controls.Add(this.picAccesoAjustes);
             this.panel2.Controls.Add(this.picAccesoFavoritos);
             this.panel2.Controls.Add(this.picAccesoJuegos);
@@ -134,12 +183,13 @@
             // panelContadorJuegos
             // 
             this.panelContadorJuegos.Controls.Add(this.label1);
+            this.panelContadorJuegos.Controls.Add(this.picGuardar);
             this.panelContadorJuegos.Controls.Add(this.labelTotalJuegos);
             this.panelContadorJuegos.Controls.Add(this.materialDivider1);
             this.panelContadorJuegos.Controls.Add(this.materialDivider2);
             this.panelContadorJuegos.Location = new System.Drawing.Point(0, 277);
             this.panelContadorJuegos.Name = "panelContadorJuegos";
-            this.panelContadorJuegos.Size = new System.Drawing.Size(61, 100);
+            this.panelContadorJuegos.Size = new System.Drawing.Size(61, 198);
             this.panelContadorJuegos.TabIndex = 1;
             // 
             // label1
@@ -184,6 +234,50 @@
             this.materialDivider2.Size = new System.Drawing.Size(45, 2);
             this.materialDivider2.TabIndex = 7;
             this.materialDivider2.Text = "materialDivider2";
+            // 
+            // picGuardar
+            // 
+            this.picGuardar.BackgroundImage = global::GHub.Properties.Resources.Save_Icon_icon_icons_com_69139;
+            this.picGuardar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picGuardar.Location = new System.Drawing.Point(9, 152);
+            this.picGuardar.Name = "picGuardar";
+            this.picGuardar.Size = new System.Drawing.Size(40, 43);
+            this.picGuardar.TabIndex = 4;
+            this.picGuardar.TabStop = false;
+            this.picGuardar.Click += new System.EventHandler(this.picGuardar_Click);
+            // 
+            // picAccesoAjustes
+            // 
+            this.picAccesoAjustes.BackgroundImage = global::GHub.Properties.Resources.code;
+            this.picAccesoAjustes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picAccesoAjustes.Location = new System.Drawing.Point(5, 481);
+            this.picAccesoAjustes.Name = "picAccesoAjustes";
+            this.picAccesoAjustes.Size = new System.Drawing.Size(50, 50);
+            this.picAccesoAjustes.TabIndex = 3;
+            this.picAccesoAjustes.TabStop = false;
+            this.picAccesoAjustes.Click += new System.EventHandler(this.picAccesoAjustes_Click);
+            // 
+            // picAccesoFavoritos
+            // 
+            this.picAccesoFavoritos.BackgroundImage = global::GHub.Properties.Resources.lazo;
+            this.picAccesoFavoritos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picAccesoFavoritos.Location = new System.Drawing.Point(9, 80);
+            this.picAccesoFavoritos.Name = "picAccesoFavoritos";
+            this.picAccesoFavoritos.Size = new System.Drawing.Size(40, 40);
+            this.picAccesoFavoritos.TabIndex = 1;
+            this.picAccesoFavoritos.TabStop = false;
+            this.picAccesoFavoritos.Click += new System.EventHandler(this.picAccesoFavoritos_Click);
+            // 
+            // picAccesoJuegos
+            // 
+            this.picAccesoJuegos.BackgroundImage = global::GHub.Properties.Resources.alien;
+            this.picAccesoJuegos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picAccesoJuegos.Location = new System.Drawing.Point(9, 16);
+            this.picAccesoJuegos.Name = "picAccesoJuegos";
+            this.picAccesoJuegos.Size = new System.Drawing.Size(40, 40);
+            this.picAccesoJuegos.TabIndex = 0;
+            this.picAccesoJuegos.TabStop = false;
+            this.picAccesoJuegos.Click += new System.EventHandler(this.picAccesoJuegos_Click);
             // 
             // panelJuegos
             // 
@@ -261,100 +355,6 @@
             this.label2.Text = "SERVIDOR";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label3
-            // 
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(812, 7);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 40);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Server →";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-            // 
-            // picGuardar
-            // 
-            this.picGuardar.BackgroundImage = global::GHub.Properties.Resources.Save_Icon_icon_icons_com_69139;
-            this.picGuardar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picGuardar.Location = new System.Drawing.Point(12, 435);
-            this.picGuardar.Name = "picGuardar";
-            this.picGuardar.Size = new System.Drawing.Size(40, 40);
-            this.picGuardar.TabIndex = 4;
-            this.picGuardar.TabStop = false;
-            this.picGuardar.Click += new System.EventHandler(this.picGuardar_Click);
-            // 
-            // picAccesoAjustes
-            // 
-            this.picAccesoAjustes.BackgroundImage = global::GHub.Properties.Resources.code;
-            this.picAccesoAjustes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picAccesoAjustes.Location = new System.Drawing.Point(5, 481);
-            this.picAccesoAjustes.Name = "picAccesoAjustes";
-            this.picAccesoAjustes.Size = new System.Drawing.Size(50, 50);
-            this.picAccesoAjustes.TabIndex = 3;
-            this.picAccesoAjustes.TabStop = false;
-            this.picAccesoAjustes.Click += new System.EventHandler(this.picAccesoAjustes_Click);
-            // 
-            // picAccesoFavoritos
-            // 
-            this.picAccesoFavoritos.BackgroundImage = global::GHub.Properties.Resources.lazo;
-            this.picAccesoFavoritos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picAccesoFavoritos.Location = new System.Drawing.Point(9, 80);
-            this.picAccesoFavoritos.Name = "picAccesoFavoritos";
-            this.picAccesoFavoritos.Size = new System.Drawing.Size(40, 40);
-            this.picAccesoFavoritos.TabIndex = 1;
-            this.picAccesoFavoritos.TabStop = false;
-            this.picAccesoFavoritos.Click += new System.EventHandler(this.picAccesoFavoritos_Click);
-            // 
-            // picAccesoJuegos
-            // 
-            this.picAccesoJuegos.BackgroundImage = global::GHub.Properties.Resources.alien;
-            this.picAccesoJuegos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picAccesoJuegos.Location = new System.Drawing.Point(9, 16);
-            this.picAccesoJuegos.Name = "picAccesoJuegos";
-            this.picAccesoJuegos.Size = new System.Drawing.Size(40, 40);
-            this.picAccesoJuegos.TabIndex = 0;
-            this.picAccesoJuegos.TabStop = false;
-            this.picAccesoJuegos.Click += new System.EventHandler(this.picAccesoJuegos_Click);
-            // 
-            // picboxApagarServer
-            // 
-            this.picboxApagarServer.BackColor = System.Drawing.Color.Transparent;
-            this.picboxApagarServer.BackgroundImage = global::GHub.Properties.Resources.apagar;
-            this.picboxApagarServer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picboxApagarServer.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picboxApagarServer.Enabled = false;
-            this.picboxApagarServer.Location = new System.Drawing.Point(936, 7);
-            this.picboxApagarServer.Name = "picboxApagarServer";
-            this.picboxApagarServer.Size = new System.Drawing.Size(40, 40);
-            this.picboxApagarServer.TabIndex = 2;
-            this.picboxApagarServer.TabStop = false;
-            this.picboxApagarServer.Click += new System.EventHandler(this.picboxApagarServer_Click);
-            // 
-            // picboxServer
-            // 
-            this.picboxServer.BackColor = System.Drawing.Color.Transparent;
-            this.picboxServer.BackgroundImage = global::GHub.Properties.Resources.encender;
-            this.picboxServer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picboxServer.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picboxServer.Location = new System.Drawing.Point(890, 7);
-            this.picboxServer.Name = "picboxServer";
-            this.picboxServer.Size = new System.Drawing.Size(40, 40);
-            this.picboxServer.TabIndex = 1;
-            this.picboxServer.TabStop = false;
-            this.picboxServer.Click += new System.EventHandler(this.picboxServer_Click);
-            // 
-            // picBuscar
-            // 
-            this.picBuscar.BackColor = System.Drawing.Color.Transparent;
-            this.picBuscar.BackgroundImage = global::GHub.Properties.Resources.buscar;
-            this.picBuscar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picBuscar.Location = new System.Drawing.Point(72, 7);
-            this.picBuscar.Name = "picBuscar";
-            this.picBuscar.Size = new System.Drawing.Size(40, 40);
-            this.picBuscar.TabIndex = 0;
-            this.picBuscar.TabStop = false;
-            this.picBuscar.Click += new System.EventHandler(this.picBuscar_Click);
-            // 
             // FormDatos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -375,20 +375,20 @@
             this.Load += new System.EventHandler(this.FormDatos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picboxApagarServer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxServer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBuscar)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panelContadorJuegos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picGuardar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picAccesoAjustes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picAccesoFavoritos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picAccesoJuegos)).EndInit();
             this.panelJuegos.ResumeLayout(false);
             this.panelFavoritos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFavoritos)).EndInit();
             this.panelServidor.ResumeLayout(false);
             this.panelServidor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picGuardar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picAccesoAjustes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picAccesoFavoritos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picAccesoJuegos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxApagarServer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxServer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBuscar)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -32,11 +32,19 @@ namespace Cliente
 
         private void FormCliente_Load(object sender, EventArgs e)
         {
-            cliente = new SimpleTcpClient();
-            cliente.StringEncoder = Encoding.UTF8;
-            cliente.Delimiter = 0x13;
-            cliente.DataReceived += Cliente_DataReceived;
-            cliente.Connect("127.0.0.1", 15002);
+            try
+            {
+                cliente = new SimpleTcpClient();
+                cliente.StringEncoder = Encoding.UTF8;
+                cliente.Delimiter = 0x13;
+                cliente.DataReceived += Cliente_DataReceived;
+                cliente.Connect("127.0.0.1", 15002);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show("¡ Antes debes de iniciar el servidor !", "Error de conexión con el servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+            }
 
         }
 

@@ -33,17 +33,44 @@ namespace GHub
 
         private async void FormDatos_Load(object sender, EventArgs e)
         {
-            string respuesta = await getHttp();
-            var source = new BindingSource();
-            RootObject rootDatos = JsonConvert.DeserializeObject<RootObject>(respuesta);
-            Response response = rootDatos.response;
+            try
+            {
+                string respuesta = await getHttp();
+                var source = new BindingSource();
+                RootObject rootDatos = JsonConvert.DeserializeObject<RootObject>(respuesta);
+                Response response = rootDatos.response;
 
-            List<Game> games = response.games;
-            source.DataSource = games;
-            totalJuegos = response.game_count;
-            labelTotalJuegos.Text = response.game_count.ToString();
+                List<Game> games = response.games;
+                source.DataSource = games;
+                totalJuegos = response.game_count;
+                labelTotalJuegos.Text = response.game_count.ToString();
 
-            dataGridViewPrincipal.DataSource = source;
+                dataGridViewPrincipal.DataSource = source;
+
+            }
+            catch (System.Net.WebException)
+            {
+                MessageBox.Show("No ha introducido credenciales válidos (SteamID y SteamKey). \r\nA continuación se borrará este usuario. Asegúrese de introducirlos correctamente cuando lo cree de nuevo.", "Error, usuario no válido");
+                try
+                {
+                    string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                    using (SqlConnection conexion = new SqlConnection(cnn))
+                    {
+                        conexion.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM t_usuarios WHERE id=" + user_id, conexion))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        conexion.Close();
+                        this.Close();
+                    }
+                }
+                catch (SystemException ex)
+                {
+                    MessageBox.Show(string.Format("Ha ocurrido un error ejecutando la consulta de borrado: {0}", ex.Message));
+                    this.Close();
+                }
+            }
         }
 
         private void dataGridViewPrincipal_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -81,6 +108,28 @@ namespace GHub
             {
                 for (int i = 0; i < dataGridViewPrincipal.Rows.Count - 1; i++)
                 {
+                    if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null && dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString() == "False")
+                    {
+                        string a = dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString();
+                        string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                        using (SqlConnection conexion = new SqlConnection(cnn))
+                        {
+                            try
+                            {
+                                conexion.Open();
+                                SqlCommand comando = new SqlCommand("delete from t_juegosFavoritos where appid=@appid and user_id=@user_id", conexion);
+
+                                comando.Parameters.AddWithValue("@appid", dataGridViewPrincipal.Rows[i].Cells[1].Value);
+                                comando.Parameters.AddWithValue("@user_id", user_id);
+                                comando.ExecuteNonQuery();
+                                conexion.Close();
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageBox.Show("Error");
+                            }
+                        }
+                    }
 
                     if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null && dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString() == "True")
                     {
@@ -94,38 +143,39 @@ namespace GHub
 
                         juegosFav.Add(game);
                     }
+
                 }
-            }
-            try
-            {
-                if (juegosFav.Count > 0)
+                try
                 {
-                    for (int j = 0; j < juegosFav.Count; j++)
+                    if (juegosFav.Count > 0)
                     {
-                        string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-                        using (SqlConnection conexion = new SqlConnection(cnn))
+                        for (int j = 0; j < juegosFav.Count; j++)
                         {
-                            conexion.Open();
-                            SqlCommand sql = new SqlCommand("JuegosAdd", conexion);
-                            sql.CommandType = CommandType.StoredProcedure;
-                            sql.Parameters.AddWithValue("@user_id", user_id);
-                            sql.Parameters.AddWithValue("@appid", juegosFav[j].appid);
-                            sql.Parameters.AddWithValue("@name", juegosFav[j].name);
-                            sql.Parameters.AddWithValue("@playtime_forever", juegosFav[j].playtime_forever);
-                            sql.Parameters.AddWithValue("@img_logo_url", juegosFav[j].img_logo_url);
-                            sql.Parameters.AddWithValue("@playtime_windows_forever", juegosFav[j].playtime_windows_forever);
-                            sql.Parameters.AddWithValue("@playtime_2weeks", juegosFav[j].playtime_windows_forever);
-                            sql.ExecuteNonQuery();
+                            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                            using (SqlConnection conexion = new SqlConnection(cnn))
+                            {
+                                conexion.Open();
+                                SqlCommand sql = new SqlCommand("JuegosAdd", conexion);
+                                sql.CommandType = CommandType.StoredProcedure;
+                                sql.Parameters.AddWithValue("@user_id", user_id);
+                                sql.Parameters.AddWithValue("@appid", juegosFav[j].appid);
+                                sql.Parameters.AddWithValue("@name", juegosFav[j].name);
+                                sql.Parameters.AddWithValue("@playtime_forever", juegosFav[j].playtime_forever);
+                                sql.Parameters.AddWithValue("@img_logo_url", juegosFav[j].img_logo_url);
+                                sql.Parameters.AddWithValue("@playtime_windows_forever", juegosFav[j].playtime_windows_forever);
+                                sql.Parameters.AddWithValue("@playtime_2weeks", juegosFav[j].playtime_windows_forever);
+                                sql.ExecuteNonQuery();
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
 
-            juegosFav.Clear();
+                juegosFav.Clear();
+            }
         }
 
         private void picAccesoFavoritos_Click(object sender, EventArgs e)
@@ -167,33 +217,7 @@ namespace GHub
 
         private void dataGridViewPrincipal_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridViewPrincipal.Rows.Count - 1 > 0)
-            {
-                for (int i = 0; i < dataGridViewPrincipal.Rows.Count - 1; i++)
-                {
 
-                    if (dataGridViewPrincipal.Rows[i].Cells[0].Value != null)
-                    {
-                        if (dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString().Equals("False"))
-                        {
-                            string a = dataGridViewPrincipal.Rows[i].Cells[0].Value.ToString();
-                            MessageBox.Show(a);
-                            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-                            using (SqlConnection conexion = new SqlConnection(cnn))
-                            {
-                                conexion.Open();
-                                SqlCommand comando = new SqlCommand("delete from t_juegosFavoritos where @appid && @user_id", conexion);
-
-                                comando.Parameters.AddWithValue("@appid", dataGridViewPrincipal.Rows[i].Cells[2]);
-                                comando.Parameters.AddWithValue("@user_id", user_id);
-                                comando.ExecuteNonQuery();
-                                conexion.Close();
-                                MessageBox.Show("eliminado");
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         private void picboxServer_Click(object sender, EventArgs e)
@@ -271,6 +295,7 @@ namespace GHub
                         if (row.Cells[2].Value.ToString().Contains(nombrejuego))
                         {
                             cell.Selected = true;
+                            dataGridViewPrincipal.CurrentCell = cell;
                         }
                     }
                 }

@@ -225,8 +225,6 @@ namespace GHub
 
         public void iniciarSesion()
         {
-
-
             string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
             using (SqlConnection conexion = new SqlConnection(cnn))
             {
@@ -250,8 +248,10 @@ namespace GHub
                             formSteamData.ShowDialog(this);
                             this.Dispose();
                         }
+                        
                     }
                 }
+                labelLoginError.Visible = true;
             }
         }
 
@@ -345,6 +345,16 @@ namespace GHub
                     return passwordEncrypt;
                 }
             }
+        }
+
+        private void textboxUser_Click(object sender, EventArgs e)
+        {
+            labelLoginError.Visible = false;
+        }
+
+        private void textboxPass_Click(object sender, EventArgs e)
+        {
+            labelLoginError.Visible = false;
         }
 
         private string decrypt(string password)
