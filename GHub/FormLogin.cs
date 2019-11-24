@@ -19,12 +19,12 @@ namespace GHub
     {
         public string errorCuenta = "Ha ocurrido un error creando la cuenta";
         public string okCuenta = "¡ Cuenta creada con exito !";
-        public string errorEnvioCorreo = "Ha ocurrido un error enviando el correo";
+        public string errorEnvioCorreo = "Ha ocurrido un error enviando el correo, comprueba la red";
         public string errorRecuperarPass = "No existe ninguna cuenta con ese correo asociado";
         public string okRecuperarPass = "Se ha enviado un correo con tus credenciales";
 
         string hash = "Ghub_HVillar";
-        public bool ver1 = false, ver2 = false;
+        public bool ver1 = false, ver2 = false, errorCrear = false;
 
         public Color colorOk = Color.FromArgb(167, 231, 183);
         public Color colorError = Color.FromArgb(255, 128, 128);
@@ -69,6 +69,7 @@ namespace GHub
 
         private void labelYaTengoCuenta_Click(object sender, EventArgs e)
         {
+            errorCrear = false;
             panelLogin.Visible = true;
             panelRegistro.Visible = false;
             panelReestablecerPass.Visible = false;
@@ -107,101 +108,104 @@ namespace GHub
 
         private void btnCrearUsuario_Click(object sender, EventArgs e)
         {
-            try
-            {
-                //Inserta en base de datos los credenciales       
-                crearCuenta();
-                labelErrorOkInfo.Text = okCuenta;
-                imagenErrorOk.BackgroundImage = Properties.Resources.ok;
-                panelPopupInfo.BackColor = colorOk;
-            }
-            catch (Exception Exc)
+            //Inserta en base de datos los credenciales       
+            crearCuenta();
+            if (errorCrear)
             {
                 labelErrorOkInfo.Text = errorCuenta;
                 imagenErrorOk.BackgroundImage = Properties.Resources.error;
                 panelPopupInfo.BackColor = colorError;
-                Console.Error.WriteLine(Exc.Message);
+            }
+            else
+            {
+                labelErrorOkInfo.Text = okCuenta;
+                imagenErrorOk.BackgroundImage = Properties.Resources.ok;
+                panelPopupInfo.BackColor = colorOk;
             }
             panelInfoAuxiliar.Visible = true;
             panelLogin.Visible = false;
             panelRegistro.Visible = false;
             panelReestablecerPass.Visible = false;
-
         }
 
         private void btnEnviarEmailRecuperar_Click(object sender, EventArgs e)
         {
-            try
+            if (!textboxEnviarCredenciales.Text.Equals(""))
             {
-                string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-                using (SqlConnection conexion = new SqlConnection(cnn))
+                try
                 {
-                    string usuarioParametro = "", passwordParametro = "", emailParametro = "";
-                    conexion.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM t_usuarios WHERE email='" + textboxEnviarCredenciales.Text.Trim() + "'", conexion))
+                    string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                    using (SqlConnection conexion = new SqlConnection(cnn))
                     {
-                        SqlDataReader dr = cmd.ExecuteReader();
-
-                        while (dr.Read())
+                        string usuarioParametro = "", passwordParametro = "", emailParametro = "";
+                        conexion.Open();
+                        using (SqlCommand cmd = new SqlCommand("SELECT usuario, password, email FROM t_usuarios WHERE email='" + textboxEnviarCredenciales.Text.Trim() + "'", conexion))
                         {
-                            usuarioParametro = dr.GetString(0);
-                            passwordParametro = dr.GetString(1);
-                            emailParametro = dr.GetString(2);
-                        }
+                            SqlDataReader dr = cmd.ExecuteReader();
 
-                        if (textboxEnviarCredenciales.Text == emailParametro)//Email es correcto
-                        {
-                            string msgCuerpo = "<html><p>Los credenciales con los que se ha registrado el usuario de email: "
-                                + emailParametro + "</p><p>Son los siguientes.</p><table style='height: 60px; width: 418px;' cellpadding='12'><tbody><tr style='height: 23px;'><td style='width: 260px; height: 23px;'>Nombre de usuario:</td><td style='width: 157px; height: 23px;'>"
-                                + usuarioParametro + "</td></tr><tr style='height: 9px;'><td style='width: 260px; height: 9px;'>Contrase&ntilde;a:</td><td style='width: 157px; height: 9px;'>"
-                                + decrypt(passwordParametro) + "</td></tr></tbody></table></html>";
-
-                            MailMessage msg = new MailMessage();
-                            msg.To.Add(emailParametro);
-                            msg.Subject = "Te has olvidado de tu contraseña?";
-                            msg.SubjectEncoding = System.Text.Encoding.UTF8;
-                            msg.Body = msgCuerpo;
-                            msg.BodyEncoding = System.Text.Encoding.UTF8;
-                            msg.IsBodyHtml = true;
-                            msg.From = new System.Net.Mail.MailAddress("ghub.dev@gmail.com");
-
-                            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
-                            client.UseDefaultCredentials = false;
-                            client.Credentials = new System.Net.NetworkCredential("ghub.dev@gmail.com", "qw3rty123456");
-                            client.Port = 587;
-                            client.EnableSsl = true;
-                            client.Host = "smtp.gmail.com";
-
-                            try
+                            while (dr.Read())
                             {
-                                client.Send(msg);
-
-                                //Mensaje enviado , mostrar panel
-                                labelErrorOkInfo.Text = okRecuperarPass;
-                                imagenErrorOk.BackgroundImage = Properties.Resources.ok;
-                                panelPopupInfo.BackColor = colorOk;
-
+                                usuarioParametro = dr.GetString(0);
+                                passwordParametro = dr.GetString(1);
+                                emailParametro = dr.GetString(2);
                             }
-                            catch (Exception err)
+
+                            if (textboxEnviarCredenciales.Text == emailParametro)//Email es correcto
                             {
-                                MessageBox.Show("Unexpected Error: " + err.Message);
-                                labelErrorOkInfo.Text = errorEnvioCorreo;
-                                imagenErrorOk.BackgroundImage = Properties.Resources.error;
-                                panelPopupInfo.BackColor = colorError;
+                                string msgCuerpo = "<html><p>Los credenciales con los que se ha registrado el usuario de email: "
+                                    + emailParametro + "</p><p>Son los siguientes.</p><table style='height: 60px; width: 418px;' cellpadding='12'><tbody><tr style='height: 23px;'><td style='width: 260px; height: 23px;'>Nombre de usuario:</td><td style='width: 157px; height: 23px;'>"
+                                    + usuarioParametro + "</td></tr><tr style='height: 9px;'><td style='width: 260px; height: 9px;'>Contrase&ntilde;a:</td><td style='width: 157px; height: 9px;'>"
+                                    + decrypt(passwordParametro) + "</td></tr></tbody></table></html>";
+
+                                MailMessage msg = new MailMessage();
+                                msg.To.Add(emailParametro);
+                                msg.Subject = "Te has olvidado de tu contraseña?";
+                                msg.SubjectEncoding = System.Text.Encoding.UTF8;
+                                msg.Body = msgCuerpo;
+                                msg.BodyEncoding = System.Text.Encoding.UTF8;
+                                msg.IsBodyHtml = true;
+                                msg.From = new System.Net.Mail.MailAddress("ghub.dev@gmail.com");
+
+                                System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+                                client.UseDefaultCredentials = false;
+                                client.Credentials = new System.Net.NetworkCredential("ghub.dev@gmail.com", "qw3rty123456");
+                                client.Port = 587;
+                                client.EnableSsl = true;
+                                client.Host = "smtp.gmail.com";
+
+                                try
+                                {
+                                    client.Send(msg);
+
+                                    //Mensaje enviado , mostrar panel
+                                    labelErrorOkInfo.Text = okRecuperarPass;
+                                    imagenErrorOk.BackgroundImage = Properties.Resources.ok;
+                                    panelPopupInfo.BackColor = colorOk;
+
+                                }
+                                catch (Exception err)
+                                {
+                                    //Error enviando correo (Sin conexión)
+                                    //MessageBox.Show("Unexpected Error: " + err.Message);
+                                    labelErrorOkInfo.Text = errorEnvioCorreo;
+                                    imagenErrorOk.BackgroundImage = Properties.Resources.error;
+                                    panelPopupInfo.BackColor = colorError;
+                                }
                             }
-                        }
-                        else
-                        {
-                            labelErrorOkInfo.Text = errorRecuperarPass;
-                            imagenErrorOk.BackgroundImage = Properties.Resources.error;
-                            panelPopupInfo.BackColor = colorError;
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    //Por si acaso excepcion SQL
+                    MessageBox.Show(ex.ToString());
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.ToString());
+                labelErrorOkInfo.Text = errorRecuperarPass;
+                imagenErrorOk.BackgroundImage = Properties.Resources.error;
+                panelPopupInfo.BackColor = colorError;
             }
 
             panelLogin.Visible = false;
@@ -212,9 +216,17 @@ namespace GHub
 
         private void panelInfoAuxiliar_Click(object sender, EventArgs e)
         {
+            if (errorCrear)
+            {
+                panelLogin.Visible = false;
+                panelRegistro.Visible = true;
+            }
+            else
+            {
+                panelLogin.Visible = true;
+                panelRegistro.Visible = false;
+            }
             panelInfoAuxiliar.Visible = false;
-            panelLogin.Visible = true;
-            panelRegistro.Visible = false;
             panelReestablecerPass.Visible = false;
         }
 
@@ -248,22 +260,23 @@ namespace GHub
                             formSteamData.ShowDialog(this);
                             this.Dispose();
                         }
-                        
+
                     }
                 }
                 labelLoginError.Visible = true;
             }
         }
 
-        public bool crearCuenta()
+        public void crearCuenta()
         {
             //Gmail valido
             Regex r = new Regex(@"^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$");
+            errorCrear = false;
             try
             {
-                if (!(txtboxNuevoUsuario.Text == "" || txtboxNuevaPass.Text == "" ||
-                    txtboxRepetirPass.Text == "" || txtboxNuevoEmail.Text == "" ||
-                    txtboxNuevaClave.Text == "" || txtboxNuevoSteamID.Text == "")
+                if (!(txtboxNuevoUsuario.Text == "" && txtboxNuevaPass.Text == "" &&
+                    txtboxRepetirPass.Text == "" && txtboxNuevoEmail.Text == "" &&
+                    txtboxNuevaClave.Text == "" && txtboxNuevoSteamID.Text == "")
                     && (txtboxNuevaPass.Text == txtboxRepetirPass.Text)
                     && (r.Match(txtboxNuevoEmail.Text).Success))
                 {
@@ -282,16 +295,15 @@ namespace GHub
 
                         labelErrorCampos.Visible = false;
                         limpiarCampos();
-                        return true;
                     }
                 }
                 labelErrorCampos.Visible = true;
-                return false;
+                errorCrear = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-                return false;
+                errorCrear = true;
             }
 
         }

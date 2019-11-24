@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDatos));
             this.dataGridViewPrincipal = new System.Windows.Forms.DataGridView();
             this.fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelIpServer = new System.Windows.Forms.Label();
+            this.labelPuertoServer = new System.Windows.Forms.Label();
+            this.picServerSockets = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.picboxApagarServer = new System.Windows.Forms.PictureBox();
             this.picboxServer = new System.Windows.Forms.PictureBox();
@@ -41,10 +44,10 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panelContadorJuegos = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.picGuardar = new System.Windows.Forms.PictureBox();
             this.labelTotalJuegos = new System.Windows.Forms.Label();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
-            this.picGuardar = new System.Windows.Forms.PictureBox();
             this.picAccesoAjustes = new System.Windows.Forms.PictureBox();
             this.picAccesoFavoritos = new System.Windows.Forms.PictureBox();
             this.picAccesoJuegos = new System.Windows.Forms.PictureBox();
@@ -57,6 +60,7 @@
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picServerSockets)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxApagarServer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxServer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBuscar)).BeginInit();
@@ -85,13 +89,13 @@
             this.dataGridViewPrincipal.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.fav});
             this.dataGridViewPrincipal.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dataGridViewPrincipal.Location = new System.Drawing.Point(0, 3);
+            this.dataGridViewPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewPrincipal.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewPrincipal.Name = "dataGridViewPrincipal";
             this.dataGridViewPrincipal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewPrincipal.Size = new System.Drawing.Size(936, 531);
+            this.dataGridViewPrincipal.Size = new System.Drawing.Size(181, 160);
             this.dataGridViewPrincipal.TabIndex = 0;
             this.dataGridViewPrincipal.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPrincipal_CellMouseUp);
-            this.dataGridViewPrincipal.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPrincipal_CellValueChanged);
             this.dataGridViewPrincipal.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPrincipal_ColumnHeaderMouseClick);
             this.dataGridViewPrincipal.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPrincipal_RowHeaderMouseClick);
             // 
@@ -101,15 +105,13 @@
             this.fav.Name = "fav";
             this.fav.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "1486503759-book-bookmark-education-school-favorite-mark_81266.png");
-            this.imageList1.Images.SetKeyName(1, "gamecontroller_23912.png");
-            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelIpServer);
+            this.panel1.Controls.Add(this.labelPuertoServer);
+            this.panel1.Controls.Add(this.picServerSockets);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.picboxApagarServer);
             this.panel1.Controls.Add(this.picboxServer);
@@ -119,14 +121,68 @@
             this.panel1.Size = new System.Drawing.Size(1000, 50);
             this.panel1.TabIndex = 2;
             // 
+            // labelIpServer
+            // 
+            this.labelIpServer.AutoSize = true;
+            this.labelIpServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelIpServer.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.labelIpServer.Location = new System.Drawing.Point(466, 7);
+            this.labelIpServer.Name = "labelIpServer";
+            this.labelIpServer.Size = new System.Drawing.Size(68, 16);
+            this.labelIpServer.TabIndex = 8;
+            this.labelIpServer.Text = "127.0.0.1";
+            // 
+            // labelPuertoServer
+            // 
+            this.labelPuertoServer.AutoSize = true;
+            this.labelPuertoServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPuertoServer.Location = new System.Drawing.Point(466, 29);
+            this.labelPuertoServer.Name = "labelPuertoServer";
+            this.labelPuertoServer.Size = new System.Drawing.Size(48, 16);
+            this.labelPuertoServer.TabIndex = 7;
+            this.labelPuertoServer.Text = "31416";
+            // 
+            // picServerSockets
+            // 
+            this.picServerSockets.BackColor = System.Drawing.Color.Transparent;
+            this.picServerSockets.BackgroundImage = global::GHub.Properties.Resources.server;
+            this.picServerSockets.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picServerSockets.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picServerSockets.Location = new System.Drawing.Point(364, 7);
+            this.picServerSockets.Name = "picServerSockets";
+            this.picServerSockets.Size = new System.Drawing.Size(40, 40);
+            this.picServerSockets.TabIndex = 6;
+            this.picServerSockets.TabStop = false;
+            this.picServerSockets.Click += new System.EventHandler(this.picServerSockets_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(410, 29);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(50, 16);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Puerto:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(410, 7);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(23, 16);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "IP:";
+            // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(812, 7);
+            this.label3.Location = new System.Drawing.Point(790, 7);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 40);
+            this.label3.Size = new System.Drawing.Size(86, 40);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Server →";
+            this.label3.Text = "Server      TCP/IP";
             this.label3.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // picboxApagarServer
@@ -203,6 +259,17 @@
             this.label1.Text = "TOTAL";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // picGuardar
+            // 
+            this.picGuardar.BackgroundImage = global::GHub.Properties.Resources.Save_Icon_icon_icons_com_69139;
+            this.picGuardar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picGuardar.Location = new System.Drawing.Point(9, 152);
+            this.picGuardar.Name = "picGuardar";
+            this.picGuardar.Size = new System.Drawing.Size(40, 43);
+            this.picGuardar.TabIndex = 4;
+            this.picGuardar.TabStop = false;
+            this.picGuardar.Click += new System.EventHandler(this.picGuardar_Click);
+            // 
             // labelTotalJuegos
             // 
             this.labelTotalJuegos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -234,17 +301,6 @@
             this.materialDivider2.Size = new System.Drawing.Size(45, 2);
             this.materialDivider2.TabIndex = 7;
             this.materialDivider2.Text = "materialDivider2";
-            // 
-            // picGuardar
-            // 
-            this.picGuardar.BackgroundImage = global::GHub.Properties.Resources.Save_Icon_icon_icons_com_69139;
-            this.picGuardar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picGuardar.Location = new System.Drawing.Point(9, 152);
-            this.picGuardar.Name = "picGuardar";
-            this.picGuardar.Size = new System.Drawing.Size(40, 43);
-            this.picGuardar.TabIndex = 4;
-            this.picGuardar.TabStop = false;
-            this.picGuardar.Click += new System.EventHandler(this.picGuardar_Click);
             // 
             // picAccesoAjustes
             // 
@@ -375,6 +431,8 @@
             this.Load += new System.EventHandler(this.FormDatos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrincipal)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picServerSockets)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxApagarServer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxServer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBuscar)).EndInit();
@@ -396,7 +454,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridViewPrincipal;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox picAccesoAjustes;
@@ -420,5 +477,10 @@
         private System.Windows.Forms.Panel panelServidor;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox picServerSockets;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelIpServer;
+        private System.Windows.Forms.Label labelPuertoServer;
     }
 }
