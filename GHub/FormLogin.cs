@@ -287,7 +287,7 @@ namespace GHub
                         SqlCommand sql = new SqlCommand("CrearUsuario", conexion);
                         sql.CommandType = CommandType.StoredProcedure;
                         sql.Parameters.AddWithValue("@usuario", txtboxNuevoUsuario.Text.Trim());
-                        sql.Parameters.AddWithValue("@password", encrypt(txtboxNuevaPass.Text.Trim()));  // -------------
+                        sql.Parameters.AddWithValue("@password", encrypt(txtboxNuevaPass.Text.Trim())); 
                         sql.Parameters.AddWithValue("@email", txtboxNuevoEmail.Text.Trim());
                         sql.Parameters.AddWithValue("@steam_key", txtboxNuevaClave.Text.Trim());
                         sql.Parameters.AddWithValue("@steam_id", txtboxNuevoSteamID.Text.Trim());

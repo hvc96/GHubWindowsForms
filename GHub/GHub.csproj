@@ -75,6 +75,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormSockets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSockets.Designer.cs">
+      <DependentUpon>FormSockets.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormBusqueda.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +101,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormSockets.resx">
+      <DependentUpon>FormSockets.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormBusqueda.resx">
       <DependentUpon>FormBusqueda.cs</DependentUpon>
     </EmbeddedResource>

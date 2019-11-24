@@ -24,11 +24,8 @@ namespace GHub
 {
     public partial class FormDatos : MaterialSkin.Controls.MaterialForm
     {
-        String mensaje = "";
-        List<Socket> clientes = new List<Socket>();
-        List<StreamWriter> swClientes = new List<StreamWriter>();
-        private static readonly object l = new object();
-        public string steam_key, steam_id, url, nombrejuego, ip = "127.0.0.1", ipSockets = "127.0.0.7", user_string;
+       
+        public string steam_key, steam_id, url, nombrejuego, ip = "127.0.0.1", user_string;
         public int user_id, totalJuegos, puerto = 15002, cant;
         public List<Game> juegosFav;
         public bool borrado, flag;
@@ -215,6 +212,7 @@ namespace GHub
             MessageBox.Show("Programa realizado por Hadrián Villar Cuadrado \r\nEn un futuro se podrá elegir desde un panel la configuracion de la cuenta y las plataformas de videojuegos con las que te estes conectado, por el momento está WIP\r\n", "- - - - INFORMACIÓN - - - -", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+
         private void FormDatos_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
@@ -223,16 +221,8 @@ namespace GHub
 
         private void picServerSockets_Click(object sender, EventArgs e)
         {
-            if (!panelServidor.Visible)
-            {             
-                panelServidor.Visible = true;
-                textboxInfoServer.Text = "";
-                iniciarServerSockets();
-            }
-            else
-            {
-                panelServidor.Visible = false;
-            }
+            FormSockets formSockets = new FormSockets();
+            formSockets.ShowDialog();
         }
 
         private void picboxServer_Click(object sender, EventArgs e)
@@ -345,109 +335,6 @@ namespace GHub
             InitializeComponent();           
         }
 
-
-        public void iniciarServerSockets()
-        {
-            bool puertoValido = false;
-            int p = 31416;
-            FormDatos form = new FormDatos();
-
-            while (!puertoValido)
-            {
-                try
-                {
-                    IPAddress ipaddress = IPAddress.Parse(ipSockets);
-                    labelIpServer.Text = ipSockets;
-                    labelPuertoServer.Text = p.ToString(); 
-
-                    IPEndPoint iPEndPoint = new IPEndPoint(ipaddress, p);
-                    Socket socketServidor = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    puertoValido = true;
-                    socketServidor.Bind(iPEndPoint);
-
-                    socketServidor.Listen(10);
-                    textboxInfoServer.Text= String.Format("Esperando usuarios...{0,60} puerto actual {1}", p, iPEndPoint);
-                    while (true)
-                    {
-                        Socket socketCliente = socketServidor.Accept();
-                        Thread hiloJugador = new Thread(form.hiloCliente);
-                        hiloJugador.IsBackground = true;
-                        hiloJugador.Start(socketCliente);
-                    }
-                }
-                catch (SocketException)
-                {
-                    textboxInfoServer.Text = String.Format("El puerto {0} es invalido", p);
-                    p++;
-                }
-            }
-        }
-
-        private void hiloCliente(Object socket)
-        {
-            Socket cliente = (Socket)socket;
-            IPEndPoint ieCliente = (IPEndPoint)cliente.RemoteEndPoint;
-            textboxInfoServer.Text = String.Format("Usuario conectado con la ip:{0} en el puerto:{1}", ieCliente.Address, ieCliente.Port);
-
-            NetworkStream ns;
-            StreamReader sr;
-            StreamWriter sw = null;
-
-            try
-            {
-                using (ns = new NetworkStream(cliente))
-                using (sr = new StreamReader(ns))
-                using (sw = new StreamWriter(ns))
-                {
-                    lock (l)
-                    {
-                        swClientes.Add(sw);
-                        clientes.Add(cliente);
-                    }
-                    sw.WriteLine("Bienvenido, que juego desea consultar");
-                    sw.WriteLine("Comandos disponibles: help, juego, exit");
-                    sw.Flush();
-                    while (true)
-                    {
-                        mensaje = sr.ReadLine();
-                        if (mensaje.ToLower() == "exit")
-                        {
-                            sw.Close();
-                            sr.Close();
-                            ns.Close();
-                        }
-                        else if (mensaje.ToLower().Contains("juego="))
-                        {
-                            sw.WriteLine("Hola tiene ese juego");
-                        }
-                        else if (mensaje.ToLower().Contains("help"))
-                        {
-                            sw.WriteLine("help  : Muestra el listado de comandos disponibles");
-                            sw.WriteLine("juego : La consulta tiene que tener la estructura: juego=X");
-                            sw.WriteLine("exit  : Corta la conexión con el servidor");
-                        }
-                        else
-                        {
-                            sw.WriteLine("Comando erróneo");
-                        }
-                    }
-                }
-            }
-            catch (IOException)
-            {
-                Console.WriteLine("IOEX");
-                swClientes.Remove(sw);
-                clientes.Remove(cliente);
-                cliente.Close();
-            }
-            catch (ObjectDisposedException)
-            {
-                Console.WriteLine("OBJEX");
-                swClientes.Remove(sw);
-                clientes.Remove(cliente);
-                cliente.Close();
-            }
-        }
 
         public async Task<string> getHttp()
         {
