@@ -23,15 +23,14 @@ using System.Threading;
 namespace GHub
 {
     public partial class FormDatos : MaterialSkin.Controls.MaterialForm
-    {
-       
+    {        
         public string steam_key, steam_id, url, nombrejuego, ip = "127.0.0.1", user_string;
         public int user_id, totalJuegos, puerto = 15002, cant;
         public List<Game> juegosFav;
         public bool borrado, flag;
-
-
         SimpleTcpServer server;
+
+        public string consultaJuegoSocket { get; set; }
 
         private async void FormDatos_Load(object sender, EventArgs e)
         {
@@ -47,7 +46,7 @@ namespace GHub
                 totalJuegos = response.game_count;
                 labelTotalJuegos.Text = response.game_count.ToString();
 
-                dataGridViewPrincipal.DataSource = source;             
+                dataGridViewPrincipal.DataSource = source;
 
             }
             catch (System.Net.WebException)
@@ -307,6 +306,22 @@ namespace GHub
             }
         }
 
+        public bool juegoSocket()
+        {
+            bool juego=false;
+            foreach (DataGridViewRow row in dataGridViewPrincipal.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (row.Cells[2].Value.ToString().Trim().ToLower().Contains(consultaJuegoSocket))
+                    {
+                        juego = true;
+                    }
+                }
+            }
+            return juego;
+        }
+
         public FormDatos(int id, string s_key, string s_id, string user)
         {
             InitializeComponent();
@@ -332,7 +347,7 @@ namespace GHub
 
         public FormDatos()
         {
-            InitializeComponent();           
+            InitializeComponent();
         }
 
 

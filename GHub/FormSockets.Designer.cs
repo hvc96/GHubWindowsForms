@@ -36,6 +36,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnStartServer = new System.Windows.Forms.Button();
             this.btnStopServer = new System.Windows.Forms.Button();
+            this.btnCopiarIp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textboxInfoServerSockets
@@ -46,7 +47,7 @@
             this.textboxInfoServerSockets.Name = "textboxInfoServerSockets";
             this.textboxInfoServerSockets.ReadOnly = true;
             this.textboxInfoServerSockets.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textboxInfoServerSockets.Size = new System.Drawing.Size(316, 328);
+            this.textboxInfoServerSockets.Size = new System.Drawing.Size(381, 328);
             this.textboxInfoServerSockets.TabIndex = 4;
             // 
             // labelIpServer
@@ -92,7 +93,7 @@
             // 
             // btnStartServer
             // 
-            this.btnStartServer.Location = new System.Drawing.Point(170, 73);
+            this.btnStartServer.Location = new System.Drawing.Point(235, 71);
             this.btnStartServer.Name = "btnStartServer";
             this.btnStartServer.Size = new System.Drawing.Size(134, 23);
             this.btnStartServer.TabIndex = 13;
@@ -103,7 +104,7 @@
             // btnStopServer
             // 
             this.btnStopServer.Enabled = false;
-            this.btnStopServer.Location = new System.Drawing.Point(170, 99);
+            this.btnStopServer.Location = new System.Drawing.Point(235, 97);
             this.btnStopServer.Name = "btnStopServer";
             this.btnStopServer.Size = new System.Drawing.Size(134, 23);
             this.btnStopServer.TabIndex = 14;
@@ -111,11 +112,24 @@
             this.btnStopServer.UseVisualStyleBackColor = true;
             this.btnStopServer.Click += new System.EventHandler(this.btnStopServer_Click);
             // 
+            // btnCopiarIp
+            // 
+            this.btnCopiarIp.BackColor = System.Drawing.Color.Transparent;
+            this.btnCopiarIp.BackgroundImage = global::GHub.Properties.Resources.copiar;
+            this.btnCopiarIp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCopiarIp.Location = new System.Drawing.Point(156, 71);
+            this.btnCopiarIp.Name = "btnCopiarIp";
+            this.btnCopiarIp.Size = new System.Drawing.Size(48, 49);
+            this.btnCopiarIp.TabIndex = 15;
+            this.btnCopiarIp.UseVisualStyleBackColor = false;
+            this.btnCopiarIp.Click += new System.EventHandler(this.btnCopiarIp_Click);
+            // 
             // FormSockets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(316, 455);
+            this.ClientSize = new System.Drawing.Size(381, 455);
+            this.Controls.Add(this.btnCopiarIp);
             this.Controls.Add(this.btnStopServer);
             this.Controls.Add(this.btnStartServer);
             this.Controls.Add(this.labelIpServer);
@@ -142,5 +156,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnStartServer;
         private System.Windows.Forms.Button btnStopServer;
+        private System.Windows.Forms.Button btnCopiarIp;
     }
 }
