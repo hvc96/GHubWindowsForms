@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +11,6 @@ namespace GHub
 {
     public partial class FormSockets : MaterialSkin.Controls.MaterialForm
     {
-
         public string mensaje = "", ipSockets = "127.0.0.7", consultaJuegoSocket;
         List<Socket> clientes = new List<Socket>();
         List<StreamWriter> swClientes = new List<StreamWriter>();
