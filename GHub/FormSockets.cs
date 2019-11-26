@@ -202,16 +202,17 @@ namespace GHub
                                 sw.WriteLine("exit  : Corta la conexión con el servidor");
                                 sw.Flush();
                             }
-                            else if (mensaje.ToLower().Contains("off"))
-                            {
-                                server = false;
-                                textboxInfoServerSockets.Text = "Apagar servidor";
-                                sw.Close();
-                                sr.Close();
-                                ns.Close();
-                                cliente.Shutdown(SocketShutdown.Both);
-                                cliente.Close();
-                            }
+                            //TEST
+                            //else if (mensaje.ToLower().Contains("off"))
+                            //{
+                            //    server = false;
+                            //    textboxInfoServerSockets.Text = "Apagar servidor";
+                            //    sw.Close();
+                            //    sr.Close();
+                            //    ns.Close();
+                            //    cliente.Shutdown(SocketShutdown.Both);
+                            //    cliente.Close();
+                            //}
                             else if (mensaje.ToLower().Contains("exit"))
                             {
                                 sw.Close();
