@@ -29,6 +29,7 @@ namespace GHub
         public List<Game> juegosFav;
         public bool borrado, flag;
         SimpleTcpServer server;
+        public DataGridView data;
 
         public string consultaJuegoSocket { get; set; }
 
@@ -47,7 +48,7 @@ namespace GHub
                 labelTotalJuegos.Text = response.game_count.ToString();
 
                 dataGridViewPrincipal.DataSource = source;
-
+                data = dataGridViewPrincipal;
             }
             catch (System.Net.WebException)
             {
@@ -220,7 +221,7 @@ namespace GHub
 
         private void picServerSockets_Click(object sender, EventArgs e)
         {
-            FormSockets formSockets = new FormSockets();
+            FormSockets formSockets = new FormSockets(data);
             formSockets.ShowDialog();
         }
 
@@ -304,22 +305,6 @@ namespace GHub
                     }
                 }
             }
-        }
-
-        public bool juegoSocket()
-        {
-            bool juego=false;
-            foreach (DataGridViewRow row in dataGridViewPrincipal.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (row.Cells[2].Value.ToString().Trim().ToLower().Contains(consultaJuegoSocket))
-                    {
-                        juego = true;
-                    }
-                }
-            }
-            return juego;
         }
 
         public FormDatos(int id, string s_key, string s_id, string user)

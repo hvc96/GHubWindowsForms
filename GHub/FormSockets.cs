@@ -16,23 +16,59 @@ namespace GHub
 {
     public partial class FormSockets : MaterialSkin.Controls.MaterialForm
     {
-        public string datos { get; set; }
-        public string mensaje = "", ipSockets = "127.0.0.7";
+
+        public string mensaje = "", ipSockets = "127.0.0.7", consultaJuegoSocket;
         List<Socket> clientes = new List<Socket>();
         List<StreamWriter> swClientes = new List<StreamWriter>();
         private static readonly object l = new object();
         public bool flag, server;
+        public int p = 10000;
+        public DataGridView data;
 
-        public FormSockets()
+        public delegate void AddTextToTextBox(String texto);
+        public AddTextToTextBox delegado1;
+
+        public delegate void ChangePuerto(String texto);
+        public ChangePuerto delegado2;
+
+
+        public FormSockets(DataGridView datosUsuario)
         {
             InitializeComponent();
+            data = datosUsuario;
+        }
+
+        public void setTextInTextbox(String texto)
+        {
+            if (textboxInfoServerSockets.InvokeRequired)
+            {
+                AddTextToTextBox d = new AddTextToTextBox(setTextInTextbox);
+                this.Invoke(d, new object[] { texto });
+            }
+            else
+            {
+                this.textboxInfoServerSockets.Text += texto;
+            }
+        }
+
+        public void setPuerto(String texto)
+        {
+            if (labelPuertoServer.InvokeRequired)
+            {
+                ChangePuerto d = new ChangePuerto(setPuerto);
+                this.Invoke(d, new object[] { texto });
+            }
+            else
+            {
+                this.labelPuertoServer.Text = texto;
+            }
         }
 
         public void iniciarServerSockets()
         {
             bool puertoValido = false;
-            int p = 31416;
-            FormSockets form = new FormSockets();
+            
+            FormSockets form = new FormSockets(data);
             while (!puertoValido)
             {
                 try
@@ -42,12 +78,12 @@ namespace GHub
                     Socket socketServidor = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     puertoValido = true;
                     socketServidor.Bind(iPEndPoint);
-
-                    labelIpServer.Text = ipaddress.ToString();
-                    labelPuertoServer.Text = p.ToString();
+                    
+                    setPuerto(p.ToString());
 
                     socketServidor.Listen(10);
-                    textboxInfoServerSockets.Text = String.Format("Esperando usuarios...   {0}\r\n", iPEndPoint);
+                    setTextInTextbox(String.Format("Esperando usuarios...   {0}\r\n", iPEndPoint));
+                    
                     while (server)
                     {
                         Socket socketCliente = socketServidor.Accept();
@@ -57,8 +93,8 @@ namespace GHub
                     }
                 }
                 catch (SocketException)
-                {
-                    textboxInfoServerSockets.Text = String.Format("El puerto {0} es invalido", p);
+                {                    
+                    setTextInTextbox(String.Format("El puerto {0} es invalido\r\n", p));                    
                     p++;
                 }
             }
@@ -69,7 +105,8 @@ namespace GHub
             btnStartServer.Enabled = false;
             btnStopServer.Enabled = true;
             server = true;
-            iniciarServerSockets();
+            Task.Factory.StartNew(iniciarServerSockets, TaskCreationOptions.LongRunning);
+
         }
 
         private void btnCopiarIp_Click(object sender, EventArgs e)
@@ -77,11 +114,34 @@ namespace GHub
             Clipboard.SetText(labelIpServer.Text.Trim());
         }
 
+        private void FormSockets_Load(object sender, EventArgs e)
+        {
+            //No usar, ignora toda excepcion de hilos etc
+            //CheckForIllegalCrossThreadCalls = false;  
+        }
+
         private void btnStopServer_Click(object sender, EventArgs e)
         {
             btnStartServer.Enabled = true;
             btnStopServer.Enabled = false;
             server = false;
+            textboxInfoServerSockets.Text = "";
+        }
+
+        public bool juegoSocket(string consulta)
+        {
+            bool juego = false;
+            foreach (DataGridViewRow row in data.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (row.Cells[2].Value.ToString().Trim().ToLower().Contains(consulta))
+                    {
+                        juego = true;
+                    }
+                }
+            }
+            return juego;
         }
 
         private void hiloCliente(Object socket)
@@ -89,8 +149,7 @@ namespace GHub
 
             Socket cliente = (Socket)socket;
             IPEndPoint ieCliente = (IPEndPoint)cliente.RemoteEndPoint;
-            textboxInfoServerSockets.Text += String.Format("Usuario conectado con la ip:{0} en el puerto:{1}", ieCliente.Address, ieCliente.Port);
-
+            setTextInTextbox(String.Format("Usuario conectado con la ip:{0} en el puerto:{1}\r\n", ieCliente.Address, ieCliente.Port));
             NetworkStream ns;
             StreamReader sr;
             StreamWriter sw = null;
@@ -123,13 +182,10 @@ namespace GHub
                             if (mensaje.ToLower().Contains("juego="))
                             {
                                 string[] array;
-                                array = mensaje.Trim().Split('=');
-
-                                FormDatos f = new FormDatos();
-                                f.consultaJuegoSocket = array[1].Trim().ToLower();
-
-                                textboxInfoServerSockets.Text += String.Format("Usuario conectado con la ip:{0} en el puerto:{1} ha consultado si existe el juego {2}", ieCliente.Address, ieCliente.Port, array[1]);
-                                if (f.juegoSocket())
+                                array = mensaje.Trim().Split('=');                                
+                                consultaJuegoSocket = array[1].Trim().ToLower();
+                                setTextInTextbox(String.Format("Usuario conectado con la ip:{0} en el puerto:{1} ha consultado si existe el juego {2}\r\n", ieCliente.Address, ieCliente.Port, array[1]));
+                                if (juegoSocket(consultaJuegoSocket))
                                 {
                                     sw.WriteLine("Tiene el juego \"{0}\"", array[1]);
                                 }
@@ -153,6 +209,8 @@ namespace GHub
                                 sw.Close();
                                 sr.Close();
                                 ns.Close();
+                                cliente.Shutdown(SocketShutdown.Both);
+                                cliente.Close();
                             }
                             else if (mensaje.ToLower().Contains("exit"))
                             {
@@ -168,7 +226,7 @@ namespace GHub
                         }
                         else
                         {
-                            textboxInfoServerSockets.Text += String.Format("El usuario de ip:{0}, puerto:{1} se ha desconectado", ieCliente.Address, ieCliente.Port);
+                            setTextInTextbox(String.Format("El usuario de ip:{0}, puerto:{1} se ha desconectado\r\n", ieCliente.Address, ieCliente.Port));
                             sw.Close();
                             sr.Close();
                             ns.Close();
@@ -190,7 +248,6 @@ namespace GHub
                 clientes.Remove(cliente);
                 cliente.Close();
                 server = false;
-                this.Close();
             }
         }
     }
